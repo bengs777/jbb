@@ -1,12 +1,1 @@
-{
-  "crons": [
-    {
-      "path": "/api/topup/cron/resolve-pending",
-      "schedule": "*/5 * * * *"
-    },
-    {
-      "path": "/api/topup/cron/resolve-pending?sync_products=true",
-      "schedule": "0 * * * *"
-    }
-  ]
-}
+{}
