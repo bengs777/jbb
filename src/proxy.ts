@@ -44,6 +44,7 @@ const publicPaths = [
   "/register",
   "/katalog",
   "/games",
+  "/wifi",
   "/api/auth",
   "/api/products",
   "/api/payment/webhook",
@@ -52,6 +53,8 @@ const publicPaths = [
   "/api/games/order",
   "/api/games/products",
   "/api/games/status",
+  "/api/wifi/order",
+  "/api/wifi/status",
   "/api/payment/sandbox",
 ];
 

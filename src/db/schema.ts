@@ -502,6 +502,34 @@ export const mikrotikVouchers = sqliteTable(
   })
 );
 
+// ─── WIFI ORDERS ─────────────────────────────────────────────────────────────
+export const wifiOrders = sqliteTable(
+  "wifi_orders",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    user_id: text("user_id"),
+    packet_id: text("packet_id").notNull(),
+    packet_name: text("packet_name").notNull(),
+    duration: text("duration").notNull(),
+    amount: integer("amount").notNull(),
+    invoice_id: text("invoice_id").notNull().unique(),
+    mayar_payment_id: text("mayar_payment_id"),
+    mayar_payment_url: text("mayar_payment_url"),
+    mayar_paid_at: text("mayar_paid_at"),
+    status: text("status", {
+      enum: ["WAITING_PAYMENT", "PAID", "FAILED"],
+    }).notNull().default("WAITING_PAYMENT"),
+    voucher_username: text("voucher_username"),
+    voucher_password: text("voucher_password"),
+    expired_at: text("expired_at"),
+    created_at: text("created_at").notNull().default(sql`(CURRENT_TIMESTAMP)`),
+  },
+  (t) => ({
+    invoiceIdx: index("wifi_orders_invoice_idx").on(t.invoice_id),
+    statusIdx: index("wifi_orders_status_idx").on(t.status),
+  })
+);
+
 // ─── TYPE EXPORTS ─────────────────────────────────────────────────────────────
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
@@ -525,3 +553,5 @@ export type DigitalProduct = typeof digitalProducts.$inferSelect;
 export type NewDigitalProduct = typeof digitalProducts.$inferInsert;
 export type MikrotikVoucher = typeof mikrotikVouchers.$inferSelect;
 export type NewMikrotikVoucher = typeof mikrotikVouchers.$inferInsert;
+export type WifiOrder = typeof wifiOrders.$inferSelect;
+export type NewWifiOrder = typeof wifiOrders.$inferInsert;

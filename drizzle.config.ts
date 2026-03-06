@@ -1,7 +1,7 @@
 import type { Config } from "drizzle-kit";
 
 export default {
-  schema: "./src/db/schema.ts",
+  schema: "./src/db/schema.ts",// Sesuaikan dengan folder tempat file .ts tabel kamu
   out: "./drizzle",
   dialect: "turso",
   dbCredentials: {

@@ -94,6 +94,13 @@ export async function addHotspotUser(
   });
 }
 
+export async function generateHotspotVoucher(profile: string, comment?: string): Promise<{ username: string; password: string }> {
+  const username = `JBB-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+  const password = Math.random().toString(36).substr(2, 8);
+  await addHotspotUser(username, password, profile, comment);
+  return { username, password };
+}
+
 export async function removeHotspotUser(name: string): Promise<void> {
   return withConnection(async (api) => {
     const found = await api.write("/ip/hotspot/user/print", [`?name=${name}`]);

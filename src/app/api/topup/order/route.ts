@@ -19,7 +19,7 @@ import { db } from "@/db";
 import { topupProducts, topupTransactions } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { createOrder, calculateProfit } from "@/lib/portalpulsa";
-import { mutatBalanceInTransaction, getBalance } from "@/lib/balance";
+import { mutatBalanceInTransaction, mutatBalance, getBalance } from "@/lib/balance";
 import { rateLimit } from "@/lib/rate-limit";
 import { logger } from "@/lib/logger";
 import { getExpiredAt } from "@/lib/utils";
