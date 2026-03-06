@@ -84,7 +84,7 @@ export default function RegisterPage() {
           <p className="text-sm text-slate-400 mb-6">Silakan login sekarang untuk mulai menggunakan aplikasi.</p>
           <Link
             href="/login"
-            className="inline-flex items-center justify-center w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors shadow-sm shadow-blue-200"
+            className="inline-flex items-center justify-center w-full bg-primary text-white font-bold py-3 rounded-xl hover:bg-primary/90 transition-colors shadow-sm shadow-primary/20"
           >
             Ke Halaman Login
           </Link>
@@ -101,8 +101,8 @@ export default function RegisterPage() {
           <Link href="/" className="inline-flex items-center gap-3">
             <Image src="/logo.png" alt="JBB Logo" width={68} height={68} className="drop-shadow-md" priority />
             <div className="text-left">
-              <span className="block text-2xl font-black text-blue-700 leading-tight tracking-tight">JUAL BELI</span>
-              <span className="block text-2xl font-black text-blue-700 leading-tight tracking-tight">BUNTU</span>
+              <span className="block text-2xl font-black text-primary leading-tight tracking-tight">JUAL BELI</span>
+              <span className="block text-2xl font-black text-primary leading-tight tracking-tight">BUNTU</span>
             </div>
           </Link>
         </div>
@@ -111,7 +111,7 @@ export default function RegisterPage() {
           <h1 className="text-xl font-bold text-slate-800 mb-1 tracking-tight">Buat Akun JBB</h1>
           <p className="text-sm text-slate-500 mb-6">
             Sudah punya akun?{" "}
-            <Link href="/login" className="text-blue-600 font-semibold hover:underline">
+            <Link href="/login" className="text-primary font-semibold hover:underline">
               Masuk
             </Link>
           </p>

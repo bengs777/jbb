@@ -54,7 +54,7 @@ export default function PaymentPage({
             <p className="text-sm font-semibold text-slate-700">Pembayaran Gagal</p>
             <p className="text-xs text-slate-400 max-w-xs">{error}</p>
             <a href="/buyer/orders"
-              className="mt-2 text-xs font-semibold text-blue-600 hover:underline">
+              className="mt-2 text-xs font-semibold text-primary hover:underline">
               Lihat Pesanan Saya
             </a>
           </>

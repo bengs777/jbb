@@ -35,16 +35,16 @@ export default function SellerDashboard() {
       <Navbar />
 
       {/* Hero Banner */}
-      <div className="bg-gradient-to-br from-green-700 via-green-600 to-emerald-500 text-white">
+      <div className="bg-primary text-white">
         <div className="max-w-4xl mx-auto px-4 pt-8 pb-16">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-green-200 text-sm font-medium mb-1">Selamat datang kembali,</p>
+              <p className="text-primary-foreground/70 text-sm font-medium mb-1">Selamat datang kembali,</p>
               <h1 className="text-2xl font-black tracking-tight">Dashboard Seller</h1>
-              <p className="text-green-100/80 text-sm mt-1">Kelola produk dan pantau pesanan Anda</p>
+              <p className="text-primary-foreground/60 text-sm mt-1">Kelola produk dan pantau pesanan Anda</p>
             </div>
             <Link href="/seller/products/new">
-              <Button size="sm" className="bg-white text-green-700 hover:bg-green-50 shadow-md border-0 font-bold">
+              <Button size="sm" className="bg-white text-primary hover:bg-gray-50 shadow-md border-0 font-bold">
                 <Plus className="h-4 w-4" /> Produk Baru
               </Button>
             </Link>
@@ -58,13 +58,12 @@ export default function SellerDashboard() {
             {/* Stat Cards */}
             <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-5">
               {[
-                { label: "Produk Aktif", value: stats.products, icon: <Package className="h-4 w-4 sm:h-5 sm:w-5" />, from: "from-blue-500", to: "to-blue-600", light: "bg-blue-50 text-blue-600" },
-                { label: "Total Orders", value: stats.orders, icon: <ShoppingBag className="h-4 w-4 sm:h-5 sm:w-5" />, from: "from-green-500", to: "to-emerald-600", light: "bg-green-50 text-green-600" },
-                { label: "Pendapatan", value: formatRupiah(stats.earnings), icon: <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />, from: "from-purple-500", to: "to-violet-600", light: "bg-purple-50 text-purple-600" },
+                { label: "Produk Aktif", value: stats.products, icon: <Package className="h-4 w-4 sm:h-5 sm:w-5" />, color: "bg-primary/10 text-primary" },
+                { label: "Total Orders", value: stats.orders, icon: <ShoppingBag className="h-4 w-4 sm:h-5 sm:w-5" />, color: "bg-primary/10 text-primary" },
+                { label: "Pendapatan", value: formatRupiah(stats.earnings), icon: <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />, color: "bg-primary/10 text-primary" },
               ].map((s) => (
-                <div key={s.label} className="bg-white rounded-2xl p-2.5 sm:p-4 ring-1 ring-gray-100 shadow-sm overflow-hidden relative">
-                  <div className={`absolute top-0 right-0 w-20 h-20 rounded-full bg-gradient-to-br ${s.from} ${s.to} opacity-5 translate-x-6 -translate-y-6`} />
-                  <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center mb-2 sm:mb-3 ${s.light}`}>
+                <div key={s.label} className="card p-2.5 sm:p-4 overflow-hidden relative">
+                  <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center mb-2 sm:mb-3 ${s.color}`}>
                     {s.icon}
                   </div>
                   <p className="text-sm sm:text-lg font-black text-gray-900 leading-none mb-1 truncate">{s.value}</p>
@@ -76,12 +75,12 @@ export default function SellerDashboard() {
             {/* Quick Links */}
             <div className="grid gap-3 mb-5">
               {[
-                { href: "/seller/products", label: "Kelola Produk", desc: "Tambah, edit, atau hapus produk", icon: <Package className="h-5 w-5" />, color: "bg-blue-50 text-blue-600" },
-                { href: "/seller/orders", label: "Pesanan Masuk", desc: "Monitor transaksi & assign kurir", icon: <ShoppingBag className="h-5 w-5" />, color: "bg-green-50 text-green-600" },
-                { href: "/seller/payout", label: "Pencairan Dana", desc: "Ajukan penarikan saldo ke rekening", icon: <Wallet className="h-5 w-5" />, color: "bg-yellow-50 text-yellow-600" },
+                { href: "/seller/products", label: "Kelola Produk", desc: "Tambah, edit, atau hapus produk", icon: <Package className="h-5 w-5" />, color: "bg-primary/10 text-primary" },
+                { href: "/seller/orders", label: "Pesanan Masuk", desc: "Monitor transaksi & assign kurir", icon: <ShoppingBag className="h-5 w-5" />, color: "bg-primary/10 text-primary" },
+                { href: "/seller/payout", label: "Pencairan Dana", desc: "Ajukan penarikan saldo ke rekening", icon: <Wallet className="h-5 w-5" />, color: "bg-primary/10 text-primary" },
               ].map((item) => (
                 <Link key={item.href} href={item.href}
-                  className="group flex items-center gap-4 bg-white rounded-2xl p-4 ring-1 ring-gray-100 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all duration-150">
+                  className="group flex items-center gap-4 card p-4 hover:-translate-y-0.5 hover:shadow-md transition-all duration-150">
                   <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${item.color}`}>{item.icon}</div>
                   <div className="flex-1">
                     <p className="font-semibold text-gray-900 text-sm">{item.label}</p>
@@ -94,10 +93,10 @@ export default function SellerDashboard() {
 
             {/* Recent Orders */}
             {recentOrders.length > 0 && (
-              <div className="bg-white rounded-2xl ring-1 ring-gray-100 shadow-sm overflow-hidden">
+              <div className="card overflow-hidden">
                 <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-gray-50">
                   <h3 className="font-bold text-gray-900 text-sm">Pesanan Terbaru</h3>
-                  <Link href="/seller/orders" className="text-xs text-green-600 hover:text-green-700 font-semibold flex items-center gap-1">
+                  <Link href="/seller/orders" className="text-xs text-primary hover:text-primary/80 font-semibold flex items-center gap-1">
                     Lihat semua <ArrowRight className="h-3 w-3" />
                   </Link>
                 </div>

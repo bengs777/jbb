@@ -117,7 +117,7 @@ export default function KatalogPage() {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Cari produk..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 focus:bg-white transition-all"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all"
             />
           </div>
 
@@ -130,8 +130,8 @@ export default function KatalogPage() {
                 className={cn(
                   "flex-shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-150",
                   kategori === cat
-                    ? "bg-blue-600 text-white shadow-sm shadow-blue-200"
-                    : "bg-white text-slate-600 border border-slate-200 hover:border-blue-300 hover:text-blue-700"
+                    ? "bg-primary text-white shadow-sm shadow-primary/20"
+                    : "bg-white text-slate-600 border border-slate-200 hover:border-primary/30 hover:text-primary"
                 )}
               >
                 {cat}

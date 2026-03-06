@@ -223,20 +223,20 @@ export default function GamesPage() {
       <Navbar />
 
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-700 to-indigo-700 text-white py-10">
+      <div className="bg-primary text-white py-10">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-4xl mx-auto mb-4">{"\uD83C\uDFAE"}</div>
           <h1 className="text-3xl font-black mb-2">Game Voucher</h1>
-          <p className="text-purple-200">Top-up game favoritmu dengan harga terbaik.</p>
+          <p className="text-primary-foreground/70">Top-up game favoritmu dengan harga terbaik.</p>
         </div>
       </div>
 
       {/* Saldo widget */}
       {session?.user && (
-        <div className="bg-gradient-to-br from-indigo-700 via-indigo-600 to-violet-600 text-white px-4 py-5">
+        <div className="bg-primary text-white px-4 py-5">
           <div className="max-w-3xl mx-auto flex items-center justify-between">
             <div>
-              <p className="text-indigo-200 text-xs font-bold uppercase tracking-wide mb-1">Saldo JBB</p>
+              <p className="text-primary-foreground/70 text-xs font-bold uppercase tracking-wide mb-1">Saldo JBB</p>
               {balanceLoading ? (
                 <div className="h-7 w-32 bg-white/20 animate-pulse rounded-xl" />
               ) : (
@@ -246,7 +246,7 @@ export default function GamesPage() {
             <div className="flex items-center gap-2">
               <Link
                 href="/topup/deposit"
-                className="flex items-center gap-1.5 bg-white text-indigo-700 font-bold text-sm px-4 py-2 rounded-xl hover:bg-indigo-50 transition-colors"
+                className="flex items-center gap-1.5 bg-white text-primary font-bold text-sm px-4 py-2 rounded-xl hover:bg-gray-50 transition-colors"
               >
                 <Plus size={13} /> Isi Saldo
               </Link>
@@ -272,11 +272,11 @@ export default function GamesPage() {
           ].map((s, i) => (
             <div key={s.n} className="flex items-center gap-2 flex-1">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 transition-colors ${
-                step >= s.n ? "bg-purple-600 text-white" : "bg-gray-200 text-gray-500"
+                step >= s.n ? "bg-primary text-white" : "bg-gray-200 text-gray-500"
               }`}>
                 {s.n}
               </div>
-              <span className={`text-sm font-medium hidden sm:block ${step >= s.n ? "text-purple-700" : "text-gray-400"}`}>{s.label}</span>
+              <span className={`text-sm font-medium hidden sm:block ${step >= s.n ? "text-primary" : "text-gray-400"}`}>{s.label}</span>
               {i < 2 && <ChevronRight className="h-4 w-4 text-gray-300 flex-shrink-0 ml-auto" />}
             </div>
           ))}
@@ -286,7 +286,7 @@ export default function GamesPage() {
         {step === 1 && (
           <div>
             <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-              <Gamepad2 className="h-5 w-5 text-purple-600" /> Pilih Game
+              <Gamepad2 className="h-5 w-5 text-primary" /> Pilih Game
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {GAMES.map((g) => (
@@ -306,7 +306,7 @@ export default function GamesPage() {
         {/* Step 2 â€” Masukkan User ID */}
         {step === 2 && game && (
           <div>
-            <button onClick={() => setStep(1)} className="text-sm text-purple-600 hover:underline mb-4 flex items-center gap-1">
+            <button onClick={() => setStep(1)} className="text-sm text-primary hover:underline mb-4 flex items-center gap-1">
               â† Ganti game
             </button>
             <div className={`bg-gradient-to-r ${game.color} rounded-2xl p-4 flex items-center gap-3 text-white mb-6`}>
@@ -322,7 +322,7 @@ export default function GamesPage() {
                   value={userId}
                   onChange={(e) => setUserId(e.target.value)}
                   placeholder="Masukkan User ID kamu"
-                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
                 />
               </div>
               {(selectedGame === "ml" || selectedGame === "pubg") && (
@@ -333,13 +333,13 @@ export default function GamesPage() {
                     value={serverId}
                     onChange={(e) => setServerId(e.target.value)}
                     placeholder="Masukkan Server ID"
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 bg-white focus:outline-none focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
               )}
               <Button
                 onClick={() => { if (!userId.trim()) { toast.error("Masukkan User ID"); return; } setStep(3); }}
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+                className="w-full bg-primary hover:bg-primary-hover text-white"
                 size="lg"
               >
                 Lanjutkan â†’
@@ -351,7 +351,7 @@ export default function GamesPage() {
         {/* Step 3 â€” Pilih Nominal */}
         {step === 3 && game && (
           <div>
-            <button onClick={() => setStep(2)} className="text-sm text-purple-600 hover:underline mb-4 flex items-center gap-1">
+            <button onClick={() => setStep(2)} className="text-sm text-primary hover:underline mb-4 flex items-center gap-1">
               â† Ubah data akun
             </button>
             <div className={`bg-gradient-to-r ${game.color} rounded-2xl p-4 flex items-center gap-3 text-white mb-2`}>
@@ -363,7 +363,7 @@ export default function GamesPage() {
             </div>
 
             <h2 className="text-lg font-bold text-gray-800 mb-4 mt-6 flex items-center gap-2">
-              <Zap className="h-5 w-5 text-purple-600" /> Pilih Nominal Top-up
+              <Zap className="h-5 w-5 text-primary" /> Pilih Nominal Top-up
             </h2>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
@@ -373,12 +373,12 @@ export default function GamesPage() {
                   onClick={() => setSelectedNominal(n)}
                   className={`border-2 rounded-xl p-4 text-left transition-all ${
                     selectedNominal?.value === n.value
-                      ? "border-purple-500 bg-purple-50"
-                      : "border-gray-200 bg-white hover:border-purple-300"
+                      ? "border-primary bg-primary/10"
+                      : "border-gray-200 bg-white hover:border-primary/30"
                   }`}
                 >
                   <p className="font-bold text-gray-800 text-sm">{n.label}</p>
-                  <p className="text-purple-600 font-black mt-1">
+                  <p className="text-primary font-black mt-1">
                     Rp {(n.sellPrice ?? sellPrice(n.basePrice)).toLocaleString("id-ID")}
                   </p>
                 </button>
@@ -404,7 +404,7 @@ export default function GamesPage() {
                 </div>
                 <div className="flex justify-between font-bold text-gray-900 border-t border-gray-200 pt-2 mt-2">
                   <span>Total Pembayaran</span>
-                  <span className="text-purple-700">
+                  <span className="text-primary">
                     Rp {(selectedNominal.sellPrice ?? sellPrice(selectedNominal.basePrice)).toLocaleString("id-ID")}
                   </span>
                 </div>
@@ -423,8 +423,8 @@ export default function GamesPage() {
                     onClick={() => setPayMethod(m.id as "saldo" | "mayar")}
                     className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold border-2 transition-all ${
                       payMethod === m.id
-                        ? "border-purple-500 bg-purple-50 text-purple-700"
-                        : "border-gray-200 bg-white text-gray-500 hover:border-purple-300"
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-gray-200 bg-white text-gray-500 hover:border-primary/30"
                     }`}
                   >
                     {m.icon}{m.label}
@@ -447,7 +447,7 @@ export default function GamesPage() {
                 !selectedNominal ||
                 (payMethod === "saldo" && (!balance || balance.balance < sellPrice(selectedNominal?.basePrice ?? 0)))
               }
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white disabled:opacity-50"
+              className="w-full bg-primary hover:bg-primary-hover text-white disabled:opacity-50"
               size="lg"
             >
               {payMethod === "saldo" ? <><Wallet size={16} className="mr-1.5" />Bayar dengan Saldo</> : <>Bayar dengan Transfer/QRIS</>}

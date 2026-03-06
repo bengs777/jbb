@@ -87,7 +87,7 @@ function LoginForm() {
           <h1 className="text-xl font-bold text-slate-800 mb-1 tracking-tight">Masuk ke JBB</h1>
           <p className="text-sm text-slate-500 mb-6">
             Belum punya akun?{" "}
-            <Link href="/register" className="text-blue-600 font-semibold hover:underline">
+            <Link href="/register" className="text-primary font-semibold hover:underline">
               Daftar gratis
             </Link>
           </p>
@@ -170,7 +170,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-50"><div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full" /></div>}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-slate-50"><div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
       <LoginForm />
     </Suspense>
   );

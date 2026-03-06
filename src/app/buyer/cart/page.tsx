@@ -142,13 +142,13 @@ export default function CartPage() {
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </div>
-                  <p className="text-blue-700 font-bold text-sm mt-0.5">{formatRupiah(item.product_harga)}<span className="text-gray-400 font-normal"> / item</span></p>
+                  <p className="text-primary font-bold text-sm mt-0.5">{formatRupiah(item.product_harga)}<span className="text-gray-400 font-normal"> / item</span></p>
                   <div className="flex items-center justify-between mt-3">
                     {/* Qty control */}
-                    <div className="flex items-center rounded-xl border-2 border-blue-200 overflow-hidden">
+                    <div className="flex items-center rounded-xl border-2 border-primary/20 overflow-hidden">
                       <button
                         onClick={() => updateQty(item.product_id, item.qty - 1)}
-                        className="w-9 h-9 flex items-center justify-center bg-blue-50 hover:bg-blue-100 active:bg-blue-200 transition-colors text-blue-700 font-bold text-lg"
+                        className="w-9 h-9 flex items-center justify-center bg-primary/10 hover:bg-primary/20 active:bg-primary/30 transition-colors text-primary font-bold text-lg"
                       >
                         <Minus className="h-4 w-4" />
                       </button>
@@ -156,7 +156,7 @@ export default function CartPage() {
                       <button
                         onClick={() => updateQty(item.product_id, Math.min(item.product_stok, item.qty + 1))}
                         disabled={item.qty >= item.product_stok}
-                        className="w-9 h-9 flex items-center justify-center bg-blue-600 hover:bg-blue-700 active:bg-blue-800 transition-colors text-white disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="w-9 h-9 flex items-center justify-center bg-primary hover:bg-primary/90 transition-colors text-white disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         <Plus className="h-4 w-4" />
                       </button>
@@ -223,7 +223,7 @@ export default function CartPage() {
             </div>
 
             {/* Notice */}
-            <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 text-sm text-blue-700 flex items-start gap-2">
+            <div className="bg-primary/10 border border-primary/20 rounded-xl p-3 text-sm text-primary flex items-start gap-2">
               <span className="text-lg mt-0.5">🙏</span>
               <span>Terima kasih telah berbelanja di <strong>JBB</strong>! Pesananmu sudah siap — yuk selesaikan pembayaran dan barangmu segera kami proses. 🛍️</span>
             </div>

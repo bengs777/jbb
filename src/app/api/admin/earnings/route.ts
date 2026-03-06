@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { db } from "@/db";
-import { sellerEarnings, kurirEarnings, users, userBalances, orders } from "@/db/schema";
+import { sellerEarnings, kurirEarnings, users, userBalances, orders, gameOrders } from "@/db/schema";
 import { eq, desc, sum } from "drizzle-orm";
 import { requireRole, ok, err } from "@/lib/api-helpers";
 
@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
   if ("status" in guard) return guard;
 
   try {
-    const [sellerRows, kurirRows, buyerRows, adminRows, adminTotal] = await Promise.all([
+    const [sellerRows, kurirRows, buyerRows, adminRows, adminTotal, gameRows, gameTotal] = await Promise.all([
       db
         .select({
           id: sellerEarnings.id,
@@ -72,22 +72,46 @@ export async function GET(req: NextRequest) {
         .select({ total: sum(orders.fee_admin) })
         .from(orders)
         .where(eq(orders.status_pembayaran, "PAID")),
+      db
+        .select({
+          id: gameOrders.id,
+          invoice_id: gameOrders.invoice_id,
+          game_name: gameOrders.game_name,
+          nominal_label: gameOrders.nominal_label,
+          target_user_id: gameOrders.target_user_id,
+          amount: gameOrders.amount,
+          admin_profit: gameOrders.admin_profit,
+          delivery_status: gameOrders.delivery_status,
+          pp_sn: gameOrders.pp_sn,
+          created_at: gameOrders.created_at,
+        })
+        .from(gameOrders)
+        .where(eq(gameOrders.status, "PAID"))
+        .orderBy(desc(gameOrders.created_at))
+        .limit(200),
+      db
+        .select({ total: sum(gameOrders.admin_profit) })
+        .from(gameOrders)
+        .where(eq(gameOrders.status, "PAID")),
     ]);
 
     const total_seller = sellerRows.reduce((s, r) => s + (r.jumlah ?? 0), 0);
     const total_kurir = kurirRows.reduce((s, r) => s + (r.jumlah ?? 0), 0);
     const total_buyer_saldo = buyerRows.reduce((s, r) => s + (r.saldo ?? 0), 0);
     const total_admin = Number(adminTotal[0]?.total ?? 0);
+    const total_game_profit = Number(gameTotal[0]?.total ?? 0);
 
     return ok({
       seller: sellerRows,
       kurir: kurirRows,
       buyers: buyerRows,
       admin: adminRows,
+      game: gameRows,
       total_seller,
       total_kurir,
       total_buyer_saldo,
       total_admin,
+      total_game_profit,
     });
   } catch (e) {
     console.error("[GET /api/admin/earnings]", e);

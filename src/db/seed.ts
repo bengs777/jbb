@@ -17,14 +17,14 @@ const DEMO_USERS = [
 ];
 
 const DEMO_PRODUCTS = [
-  { nama: "Beras Premium 5kg", deskripsi: "Beras pulen kualitas terbaik pilihan petani lokal", harga: 65000, stok: 50, kategori: "Sembako", foto_url: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&q=80" },
-  { nama: "Minyak Goreng 1L", deskripsi: "Minyak goreng kemasan 1 liter, jernih dan bebas kolesterol", harga: 18000, stok: 100, kategori: "Sembako", foto_url: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&q=80" },
-  { nama: "Gula Pasir 1kg", deskripsi: "Gula pasir putih bersih, manis alami", harga: 14000, stok: 80, kategori: "Sembako", foto_url: "https://images.unsplash.com/photo-1581450024842-a0a2bf94e940?w=400&q=80" },
-  { nama: "Bayam Segar", deskripsi: "Bayam organik segar dari kebun, kaya zat besi", harga: 5000, stok: 30, kategori: "Sayuran", foto_url: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&q=80" },
+  { nama: "Beras Premium 5kg", deskripsi: "Beras pulen kualitas terbaik pilihan petani lokal Desa Buntu", harga: 65000, stok: 50, kategori: "Sembako", foto_url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80" },
+  { nama: "Minyak Goreng 1L", deskripsi: "Minyak goreng kemasan 1 liter dari kelapa sawit lokal", harga: 18000, stok: 100, kategori: "Sembako", foto_url: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&q=80" },
+  { nama: "Gula Pasir 1kg", deskripsi: "Gula pasir putih bersih dari tebu lokal", harga: 14000, stok: 80, kategori: "Sembako", foto_url: "https://images.unsplash.com/photo-1581450024842-a0a2bf94e940?w=400&q=80" },
+  { nama: "Bayam Segar", deskripsi: "Bayam organik segar dari kebun petani Desa Buntu", harga: 5000, stok: 30, kategori: "Sayuran", foto_url: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&q=80" },
   { nama: "Tomat Merah 1kg", deskripsi: "Tomat segar merah matang dari kebun lokal", harga: 8000, stok: 40, kategori: "Sayuran", foto_url: "https://images.unsplash.com/photo-1546470427-e26264be0b0d?w=400&q=80" },
-  { nama: "Pisang Cavendish", deskripsi: "Pisang manis-asam segar, 1 sisir", harga: 12000, stok: 20, kategori: "Buah", foto_url: "https://images.unsplash.com/photo-1528825871115-3581a5387919?w=400&q=80" },
-  { nama: "Tempe Blok 200g", deskripsi: "Tempe homemade organik kedelai lokal", harga: 7000, stok: 25, kategori: "Daging & Ikan", foto_url: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=400&q=80" },
-  { nama: "Telur Ayam 1kg", deskripsi: "Telur ayam kampung segar, kaya protein", harga: 28000, stok: 60, kategori: "Sembako", foto_url: "https://images.unsplash.com/photo-1518569656558-1f25e69d2221?w=400&q=80" },
+  { nama: "Pisang Cavendish", deskripsi: "Pisang manis-asam segar dari perkebunan desa", harga: 12000, stok: 20, kategori: "Buah", foto_url: "https://images.unsplash.com/photo-1528825871115-3581a5387919?w=400&q=80" },
+  { nama: "Tempe Blok 200g", deskripsi: "Tempe homemade organik dari kedelai petani lokal", harga: 7000, stok: 25, kategori: "Daging & Ikan", foto_url: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=400&q=80" },
+  { nama: "Telur Ayam 1kg", deskripsi: "Telur ayam kampung segar dari peternakan desa", harga: 28000, stok: 60, kategori: "Sembako", foto_url: "https://images.unsplash.com/photo-1518569656558-1f25e69d2221?w=400&q=80" },
 ];
 
 async function seed() {

@@ -96,7 +96,7 @@ export default function SellerOrdersPage() {
                     </div>
                   )}
                   {o.kurir_id && (
-                    <span className="text-xs text-blue-600 font-medium flex items-center gap-1">
+                    <span className="text-xs text-primary font-medium flex items-center gap-1">
                       <Truck className="h-3 w-3" /> {o.kurir_name ?? "Kurir assigned"}
                     </span>
                   )}

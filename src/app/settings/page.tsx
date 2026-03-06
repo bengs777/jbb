@@ -193,8 +193,8 @@ export default function SettingsPage() {
       <div className="max-w-lg mx-auto px-4 -mt-8 pb-28 md:pb-12">
         {/* Profile Info Card */}
         <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-4 mb-4 flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center flex-shrink-0">
-            <User className="h-7 w-7 text-blue-600" />
+          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <User className="h-7 w-7 text-primary" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="font-bold text-gray-900 truncate">{session?.user?.name}</p>
@@ -213,8 +213,8 @@ export default function SettingsPage() {
             onClick={() => setSection(section === "profile" ? null : "profile")}
             className="w-full flex items-center gap-3 px-4 py-4 hover:bg-gray-50 transition-colors border-b border-gray-100"
           >
-            <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
-              <User className="h-4 w-4 text-blue-600" />
+            <div className="w-9 h-9 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+              <User className="h-4 w-4 text-primary" />
             </div>
             <div className="flex-1 text-left">
               <p className="font-semibold text-gray-800 text-sm">Edit Profil</p>
@@ -224,7 +224,7 @@ export default function SettingsPage() {
           </button>
 
           {section === "profile" && (
-            <div className="px-4 pb-4 pt-2 border-b border-gray-100 bg-blue-50/30">
+            <div className="px-4 pb-4 pt-2 border-b border-gray-100 bg-primary/5">
               <div className="flex flex-col gap-3">
                 <Input
                   label="Nama Lengkap"
@@ -264,8 +264,8 @@ export default function SettingsPage() {
             onClick={() => setSection(section === "password" ? null : "password")}
             className="w-full flex items-center gap-3 px-4 py-4 hover:bg-gray-50 transition-colors"
           >
-            <div className="w-9 h-9 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
-              <Lock className="h-4 w-4 text-orange-600" />
+            <div className="w-9 h-9 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+              <Lock className="h-4 w-4 text-primary" />
             </div>
             <div className="flex-1 text-left">
               <p className="font-semibold text-gray-800 text-sm">{hasPassword ? "Ganti Password" : "Buat Password"}</p>
@@ -277,10 +277,10 @@ export default function SettingsPage() {
           </button>
 
           {section === "password" && (
-            <div className="px-4 pb-4 pt-2 bg-orange-50/30">
+            <div className="px-4 pb-4 pt-2 bg-primary/5">
               <div className="flex flex-col gap-3">
                 {!hasPassword && (
-                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-700">
+                  <div className="bg-primary/10 border border-primary/20 rounded-xl p-3 text-xs text-primary">
                     Akun Anda terdaftar via Google. Buat password untuk bisa login dengan email &amp; password.
                   </div>
                 )}
@@ -335,8 +335,8 @@ export default function SettingsPage() {
               onClick={() => setSection(section === "apply" ? null : "apply")}
               className="w-full flex items-center gap-3 px-4 py-4 hover:bg-gray-50 transition-colors"
             >
-              <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                <Store className="h-4 w-4 text-emerald-600" />
+              <div className="w-9 h-9 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Store className="h-4 w-4 text-primary" />
               </div>
               <div className="flex-1 text-left">
                 <p className="font-semibold text-gray-800 text-sm">Ajukan Diri</p>
@@ -356,7 +356,7 @@ export default function SettingsPage() {
             </button>
 
             {section === "apply" && (
-              <div className="px-4 pb-4 pt-2 bg-emerald-50/30">
+              <div className="px-4 pb-4 pt-2 bg-primary/5">
                 {pendingRole ? (
                   <div className="flex flex-col gap-3">
                     <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 flex items-start gap-2">
@@ -386,10 +386,10 @@ export default function SettingsPage() {
                     <p className="text-xs text-gray-500">Pilih peran yang ingin Anda ajukan:</p>
                     <div
                       onClick={() => setApplyTarget("SELLER")}
-                      className="flex items-center gap-3 p-4 border-2 border-orange-200 rounded-xl cursor-pointer hover:border-orange-400 hover:bg-orange-50/50 transition-all"
+                      className="flex items-center gap-3 p-4 border-2 border-primary/20 rounded-xl cursor-pointer hover:border-primary/40 hover:bg-primary/5 transition-all"
                     >
-                      <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <Store className="h-5 w-5 text-orange-600" />
+                      <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Store className="h-5 w-5 text-primary" />
                       </div>
                       <div>
                         <p className="font-semibold text-gray-800 text-sm">Penjual (Seller)</p>
@@ -398,10 +398,10 @@ export default function SettingsPage() {
                     </div>
                     <div
                       onClick={() => setApplyTarget("KURIR")}
-                      className="flex items-center gap-3 p-4 border-2 border-blue-200 rounded-xl cursor-pointer hover:border-blue-400 hover:bg-blue-50/50 transition-all"
+                      className="flex items-center gap-3 p-4 border-2 border-primary/20 rounded-xl cursor-pointer hover:border-primary/40 hover:bg-primary/5 transition-all"
                     >
-                      <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <Truck className="h-5 w-5 text-blue-600" />
+                      <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Truck className="h-5 w-5 text-primary" />
                       </div>
                       <div>
                         <p className="font-semibold text-gray-800 text-sm">Kurir</p>
@@ -429,7 +429,7 @@ export default function SettingsPage() {
                       <p className="text-xs text-gray-500 mb-3">Ambil atau unggah foto selfie Anda yang jelas untuk verifikasi identitas.</p>
 
                       {selfiePreview || applySelfieUrl ? (
-                        <div className="relative rounded-xl overflow-hidden border-2 border-emerald-300 mb-2">
+                        <div className="relative rounded-xl overflow-hidden border-2 border-primary/40 mb-2">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={selfiePreview ?? applySelfieUrl ?? ""}
@@ -443,14 +443,14 @@ export default function SettingsPage() {
                             <X className="h-3.5 w-3.5 text-white" />
                           </button>
                           {applySelfieUrl && !selfieUploading && (
-                            <div className="absolute bottom-2 right-2 bg-emerald-500 text-white text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
+                            <div className="absolute bottom-2 right-2 bg-primary text-white text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
                               <CheckCircle2 className="h-3 w-3" /> Terunggah
                             </div>
                           )}
                         </div>
                       ) : (
-                        <label className="flex flex-col items-center justify-center gap-2 w-full h-36 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-emerald-400 hover:bg-emerald-50/50 transition-all">
-                          <Camera className={`h-8 w-8 ${selfieUploading ? "text-emerald-400 animate-pulse" : "text-gray-400"}`} />
+                        <label className="flex flex-col items-center justify-center gap-2 w-full h-36 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-primary/40 hover:bg-primary/5 transition-all">
+                          <Camera className={`h-8 w-8 ${selfieUploading ? "text-primary animate-pulse" : "text-gray-400"}`} />
                           <span className="text-sm text-gray-500">{selfieUploading ? "Mengunggah..." : "Pilih foto selfie"}</span>
                           <span className="text-xs text-gray-400">JPG / PNG, maks. 5 MB</span>
                           <input
@@ -468,7 +468,7 @@ export default function SettingsPage() {
                     <button
                       onClick={() => handleApply(applyTarget)}
                       disabled={applyLoading || selfieUploading || !applySelfieUrl}
-                      className="w-full py-3 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                      className="w-full py-3 text-sm font-bold text-white bg-primary hover:bg-primary-hover rounded-xl transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                       {applyLoading ? "Mengirim..." : `Kirim Pengajuan sebagai ${applyTarget === "KURIR" ? "Kurir" : "Penjual"}`}
                     </button>
@@ -481,9 +481,9 @@ export default function SettingsPage() {
 
         {/* Info untuk SELLER/KURIR */}
         {(role === "SELLER" || role === "KURIR") && (
-          <div className="bg-emerald-50 rounded-2xl ring-1 ring-emerald-100 p-4 mb-4 flex items-center gap-3">
-            <CheckCircle2 className="h-5 w-5 text-emerald-600 flex-shrink-0" />
-            <p className="text-sm text-emerald-700">
+          <div className="bg-primary/10 rounded-2xl ring-1 ring-primary/20 p-4 mb-4 flex items-center gap-3">
+            <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0" />
+            <p className="text-sm text-primary">
               Anda terdaftar sebagai <strong>{role === "SELLER" ? "Penjual" : "Kurir"}</strong>. Akses fitur lengkap dari menu navigasi.
             </p>
           </div>

@@ -97,17 +97,17 @@ export default function KurirOrdersPage() {
       </div>
 
       {/* Recipient info block */}
-      <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 mb-3">
-        <p className="text-xs font-semibold text-blue-500 uppercase tracking-wide mb-1.5">Info Penerima</p>
+      <div className="bg-primary/10 border border-primary/20 rounded-xl p-3 mb-3">
+        <p className="text-xs font-semibold text-primary uppercase tracking-wide mb-1.5">Info Penerima</p>
         <div className="flex items-center gap-2 mb-1">
-          <User className="h-3.5 w-3.5 text-blue-400 shrink-0" />
+          <User className="h-3.5 w-3.5 text-primary shrink-0" />
           <p className="text-sm font-semibold text-slate-800">{namaPenerima}</p>
         </div>
         {noHp ? (
           <div className="flex items-center gap-2">
-            <Phone className="h-3.5 w-3.5 text-blue-400 shrink-0" />
+            <Phone className="h-3.5 w-3.5 text-primary shrink-0" />
             <div className="flex items-center gap-2">
-              <a href={`tel:${noHp}`} className="text-sm font-semibold text-blue-600 hover:underline">{noHp}</a>
+              <a href={`tel:${noHp}`} className="text-sm font-semibold text-primary hover:underline">{noHp}</a>
               {waHref && (
                 <a
                   href={waHref}
@@ -182,7 +182,7 @@ export default function KurirOrdersPage() {
         <div>
           <p className="text-sm font-bold text-emerald-700">{formatRupiah(o.total_bayar)}</p>
           {o.fee_kurir > 0 && (
-            <p className="text-xs text-blue-600 font-medium">Komisi: {formatRupiah(o.fee_kurir)}</p>
+            <p className="text-xs text-primary font-medium">Komisi: {formatRupiah(o.fee_kurir)}</p>
           )}
         </div>
 
@@ -191,7 +191,7 @@ export default function KurirOrdersPage() {
             size="sm"
             onClick={() => selfAssign(o.id)}
             disabled={updating === o.id}
-            className="bg-blue-600 hover:bg-blue-700 text-white"
+            className="bg-primary hover:bg-primary/90 text-white"
           >
             <Bike className="h-3 w-3 mr-1" />
             {updating === o.id ? "Mengambil..." : "Ambil Pesanan"}
@@ -226,14 +226,14 @@ export default function KurirOrdersPage() {
             onClick={() => setTab("available")}
             className={`flex-1 flex items-center justify-center gap-1.5 text-sm font-medium py-2 rounded-lg transition-colors ${
               tab === "available"
-                ? "bg-white text-blue-700 shadow-sm"
+                ? "bg-white text-primary shadow-sm"
                 : "text-slate-500 hover:text-slate-700"
             }`}
           >
             <PackageSearch className="h-4 w-4" />
             Tersedia
             {available.length > 0 && (
-              <span className="bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {available.length}
               </span>
             )}
@@ -242,7 +242,7 @@ export default function KurirOrdersPage() {
             onClick={() => setTab("mine")}
             className={`flex-1 flex items-center justify-center gap-1.5 text-sm font-medium py-2 rounded-lg transition-colors ${
               tab === "mine"
-                ? "bg-white text-blue-700 shadow-sm"
+                ? "bg-white text-primary shadow-sm"
                 : "text-slate-500 hover:text-slate-700"
             }`}
           >

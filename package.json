@@ -2,70 +2,60 @@
   "name": "jbb",
   "version": "1.0.0",
   "private": true,
-
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:migrate": "tsx src/db/migrate.ts",
     "db:seed": "tsx src/db/seed.ts",
     "db:studio": "drizzle-kit studio"
   },
-
   "dependencies": {
-    "next": "14.2.5",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-
+    "@better-auth/drizzle-adapter": "^1.5.4",
+    "@libsql/client": "^0.14.0",
+    "@supabase/supabase-js": "^2.47.10",
+    "@types/node-cron": "^3.0.11",
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "better-auth": "^1.2.7",
-
     "clsx": "^2.1.1",
     "crypto-js": "^4.2.0",
     "date-fns": "^3.6.0",
-
+    "dotenv": "^17.3.1",
     "drizzle-orm": "^0.41.0",
-    "@libsql/client": "^0.14.0",
-
-    "@supabase/supabase-js": "^2.47.10",
-
     "lucide-react": "^0.468.0",
+    "next": "^16.1.6",
     "next-themes": "^0.4.4",
-
+    "node-cron": "^4.2.1",
+    "node-routeros": "^1.6.8",
     "qrcode": "^1.5.4",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-hot-toast": "^2.5.1",
-
     "tailwind-merge": "^2.6.0",
     "zod": "^3.23.8"
   },
-
   "devDependencies": {
-    "typescript": "^5.4.5",
-    "tsx": "^4.19.0",
-
-    "drizzle-kit": "^0.28.1",
-
-    "tailwindcss": "^3.4.4",
-    "postcss": "^8.4.38",
-
-    "eslint": "^8.57.0",
-    "eslint-config-next": "14.2.5",
-
-    "@types/node": "^20.11.30",
-    "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.1",
-
+    "@tailwindcss/postcss": "^4.2.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/crypto-js": "^4.2.2",
-    "@types/qrcode": "^1.5.5"
+    "@types/node": "^20.11.30",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.4.27",
+    "drizzle-kit": "^0.28.1",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^16.1.6",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^4.2.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.4.5"
   },
-
   "engines": {
-  "node": "24.x"
-}
+    "node": "24.x"
+  }
 }

@@ -24,7 +24,7 @@ const LAYANAN = [
 
 const STATUS_BADGE: Record<string, { label: string; cls: string }> = {
   WAITING_PAYMENT: { label: "Menunggu Bayar", cls: "bg-yellow-100 text-yellow-700" },
-  PENDING:         { label: "Diproses",       cls: "bg-blue-100 text-blue-700" },
+  PENDING:         { label: "Diproses",       cls: "bg-primary/10 text-primary" },
   SUCCESS:         { label: "Berhasil",        cls: "bg-green-100 text-green-700" },
   FAILED:          { label: "Gagal",           cls: "bg-red-100 text-red-700" },
   REFUNDED:        { label: "Dikembalikan",    cls: "bg-gray-100 text-gray-600" },
@@ -59,9 +59,9 @@ export default function PPOBDashboard() {
       <Navbar />
 
       {/* ── Hero Balance ─────────────────────────────────────── */}
-      <div className="bg-gradient-to-br from-indigo-700 via-indigo-600 to-violet-600 text-white">
+      <div className="bg-gradient-to-br from-primary to-primary/80 text-white">
         <div className="max-w-2xl mx-auto px-4 pt-8 pb-20">
-          <p className="text-indigo-200 text-[11px] font-bold uppercase tracking-[0.15em] mb-2">
+          <p className="text-white/80 text-[11px] font-bold uppercase tracking-[0.15em] mb-2">
             Saldo Dompet JBB
           </p>
           <div className="flex items-end justify-between">
@@ -74,7 +74,7 @@ export default function PPOBDashboard() {
                 </h2>
               )}
               {balance && balance.hold > 0 && (
-                <p className="text-indigo-200 text-xs mt-1.5">
+                <p className="text-white/80 text-xs mt-1.5">
                   On-hold: {formatRupiah(balance.hold)}
                 </p>
               )}
@@ -90,7 +90,7 @@ export default function PPOBDashboard() {
           <div className="flex gap-3 mt-5">
             <Link
               href="/topup/deposit"
-              className="flex items-center gap-2 bg-white text-indigo-700 font-bold text-sm px-5 py-2.5 rounded-2xl hover:bg-indigo-50 transition shadow-lg"
+              className="flex items-center gap-2 bg-white text-primary font-bold text-sm px-5 py-2.5 rounded-2xl hover:bg-gray-50 transition shadow-lg"
             >
               <Plus size={14} /> Isi Saldo
             </Link>
@@ -154,7 +154,7 @@ export default function PPOBDashboard() {
         <div className="bg-white rounded-3xl shadow-sm ring-1 ring-black/[.04] p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm font-black text-gray-700">Transaksi Terakhir</h2>
-            <Link href="/topup/history" className="text-xs font-semibold text-indigo-600 hover:underline">
+            <Link href="/topup/history" className="text-xs font-semibold text-primary hover:underline">
               Semua →
             </Link>
           </div>
@@ -188,10 +188,10 @@ export default function PPOBDashboard() {
                 return (
                   <div key={trx.id} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
                     <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0
-                      ${isDeposit ? "bg-green-100" : "bg-indigo-100"}`}>
+                      ${isDeposit ? "bg-green-100" : "bg-primary/10"}`}>
                       {isDeposit
                         ? <ArrowDownLeft size={19} className="text-green-600" />
-                        : <Smartphone size={19} className="text-indigo-600" />
+                        : <Smartphone size={19} className="text-primary" />
                       }
                     </div>
                     <div className="flex-1 min-w-0">
@@ -225,10 +225,10 @@ export default function PPOBDashboard() {
           <h2 className="text-sm font-black text-gray-700 mb-3">Cara Bertransaksi</h2>
           <div className="space-y-2.5">
             {[
-              ["1", "Isi saldo dompet JBB terlebih dahulu", "bg-indigo-600"],
-              ["2", "Pilih layanan yang diinginkan (Pulsa, PLN, dll)", "bg-violet-600"],
-              ["3", "Masukkan nomor tujuan & pilih nominal", "bg-blue-600"],
-              ["4", "Konfirmasi — transaksi selesai otomatis", "bg-green-600"],
+              ["1", "Isi saldo dompet JBB terlebih dahulu", "bg-primary"],
+              ["2", "Pilih layanan yang diinginkan (Pulsa, PLN, dll)", "bg-primary"],
+              ["3", "Masukkan nomor tujuan & pilih nominal", "bg-primary"],
+              ["4", "Konfirmasi — transaksi selesai otomatis", "bg-primary"],
             ].map(([no, text, bg]) => (
               <div key={no} className="flex items-start gap-3">
                 <span className={`${bg} text-white text-xs font-black w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5`}>

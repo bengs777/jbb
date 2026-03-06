@@ -21,25 +21,20 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const base =
-      "inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none active:scale-[0.97]";
+      "inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none rounded-md";
 
     const variants = {
-      primary:
-        "bg-blue-600 text-white hover:bg-blue-700 focus-visible:ring-blue-500 shadow-sm shadow-blue-100",
-      secondary:
-        "bg-slate-100 text-slate-700 hover:bg-slate-200 focus-visible:ring-slate-400",
-      danger:
-        "bg-red-500 text-white hover:bg-red-600 focus-visible:ring-red-400 shadow-sm shadow-red-100",
-      ghost:
-        "text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-slate-300",
-      outline:
-        "border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 focus-visible:ring-slate-300",
+      primary: "bg-primary text-white hover:bg-primary-hover shadow-sm",
+      secondary: "bg-gray-100 text-gray-900 hover:bg-gray-200",
+      danger: "bg-red-600 text-white hover:bg-red-700",
+      ghost: "bg-transparent text-gray-700 hover:bg-gray-100",
+      outline: "bg-transparent text-primary border border-primary hover:bg-primary hover:text-white",
     };
 
     const sizes = {
-      sm: "text-xs px-3 py-2 h-8",
-      md: "text-sm px-4 py-2.5 h-10",
-      lg: "text-sm px-6 py-3 h-11",
+      sm: "text-sm px-3 py-1.5 h-8",
+      md: "text-sm px-4 py-2 h-10",
+      lg: "text-base px-6 py-3 h-12",
     };
 
     return (

@@ -92,7 +92,7 @@ export default function SellerProductsPage() {
                       {p.status === "ACTIVE" ? "Nonaktifkan" : "Aktifkan"}
                     </button>
                     <Link href={`/seller/products/${p.id}/edit`}
-                      className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg border border-blue-200 text-blue-700 hover:bg-blue-50 transition-colors">
+                      className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg border border-primary/20 text-primary hover:bg-primary/10 transition-colors">
                       <Pencil className="h-3 w-3" /> Edit
                     </Link>
                     <button onClick={() => deleteProduct(p.id)}

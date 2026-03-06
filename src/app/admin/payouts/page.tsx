@@ -72,7 +72,7 @@ export default function AdminPayoutsPage() {
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-gray-800">Permintaan Pencairan</h1>
           {pending.length > 0 && (
-            <span className="bg-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">
+            <span className="bg-primary text-white text-xs font-bold px-2.5 py-1 rounded-full">
               {pending.length} pending
             </span>
           )}
@@ -112,7 +112,7 @@ export default function AdminPayoutsPage() {
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                        p.role === "SELLER" ? "bg-green-50 text-green-600" : "bg-blue-50 text-blue-600"
+                        p.role === "SELLER" ? "bg-primary/10 text-primary" : "bg-primary/10 text-primary"
                       }`}>
                         {p.role === "SELLER" ? <Store className="h-4 w-4" /> : <Truck className="h-4 w-4" />}
                       </div>
@@ -151,7 +151,7 @@ export default function AdminPayoutsPage() {
                         placeholder="Catatan untuk pengguna (opsional)"
                         value={catatan[p.id] ?? ""}
                         onChange={(e) => setCatatan((prev) => ({ ...prev, [p.id]: e.target.value }))}
-                        className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+                        className="w-full text-sm border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20"
                       />
                       <div className="flex gap-2">
                         <Button

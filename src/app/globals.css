@@ -1,14 +1,20 @@
 @import "tailwindcss";
+@config "../../tailwind.config.js";
+
+@theme {
+  --color-primary: #FF5722;
+  --color-primary-hover: #E64A19;
+}
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --card: #ffffff;
-  --border: #e2e8f0;
-  --ring: #3b82f6;
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --radius: 0.75rem;
+  --background: #FFFFFF;
+  --foreground: #000000;
+  --card: #FFFFFF;
+  --border: #E5E7EB;
+  --ring: #FF5722;
+  --primary: var(--color-primary);
+  --primary-hover: var(--color-primary-hover);
+  --radius: 0.5rem; /* Rounded corners for conventional design */
 }
 
 /* ─── Typography & Base ─────────────────────────────────────── */
@@ -21,32 +27,35 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   letter-spacing: -0.01em;
+  font-weight: 400;
 }
 
 /* ─── Force inputs to always be dark (light-only theme) ─────── */
 input, textarea, select {
-  color: #0f172a;
+  color: #000000;
+  font-weight: 400;
 }
 input::placeholder, textarea::placeholder {
-  color: #94a3b8;
+  color: #666666;
 }
 
 /* ─── Scrollbar ─────────────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 99px;
+  background: #9CA3AF;
+  border: 1px solid #E5E7EB;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #6B7280;
 }
 
 .scrollbar-none {
@@ -95,11 +104,73 @@ body.menu-open {
   animation: shimmer 1.5s infinite;
 }
 
-/* ─── Glass card utility ─────────────────────────────────────── */
+/* ─── Conventional Utility Classes ─────────────────────────── */
+
+/* Card */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Button */
+.btn-primary {
+  background: var(--primary);
+  border: none;
+  border-radius: var(--radius);
+  color: white;
+  font-weight: 500;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Input */
+.input {
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  font-weight: 400;
+  color: var(--foreground);
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2);
+}
+
+/* Badge */
+.badge {
+  background: var(--primary);
+  border-radius: var(--radius);
+  color: white;
+  font-weight: 500;
+  padding: 4px 8px;
+  font-size: 0.875rem;
+}
+
+/* Glass card utility */
 .glass {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 /* ─── Page fade-in ───────────────────────────────────────────── */

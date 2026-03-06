@@ -4,6 +4,7 @@ import { orders, sellerEarnings, kurirEarnings, topupTransactions, gameOrders } 
 import { eq } from "drizzle-orm";
 import { classifyEarnings } from "@/lib/utils";
 import { mutatBalance } from "@/lib/balance";
+import { createOrder } from "@/lib/portalpulsa";
 
 const USE_MOCK = process.env.MAYAR_USE_MOCK === "true";
 
@@ -29,19 +30,46 @@ export async function POST(
       return NextResponse.json({ ok: true, message: "Sudah dikreditkan" });
     }
     const now = new Date().toISOString();
-    await mutatBalance({
-      userId: topupTrx.user_id,
-      amount: topupTrx.price,
-      type: "TOPUP_IN",
-      note: `Deposit sandbox: ${orderId}`,
-      topupTrxId: topupTrx.id,
+
+    if (topupTrx.product_code === "__DEPOSIT__") {
+      // Deposit: credit saldo user
+      await mutatBalance({
+        userId: topupTrx.user_id,
+        amount: topupTrx.price,
+        type: "TOPUP_IN",
+        note: `Deposit sandbox: ${orderId}`,
+        topupTrxId: topupTrx.id,
+      });
+      await db
+        .update(topupTransactions)
+        .set({ status: "SUCCESS", mayar_paid_at: now, updated_at: now })
+        .where(eq(topupTransactions.id, topupTrx.id));
+      console.log(`[sandbox] Deposit ${orderId} credited Rp${topupTrx.price} to user ${topupTrx.user_id}`);
+      return NextResponse.json({ ok: true, message: "Deposit simulasi berhasil" });
+    }
+
+    // Direct topup order: simulate PortalPulsa execution (no saldo mutation)
+    const ppRes = await createOrder({
+      invoiceId: topupTrx.invoice_id,
+      productCode: topupTrx.product_code,
+      targetNumber: topupTrx.target_number,
     });
+    const ppStatus =
+      ppRes.status === "success" ? "SUCCESS" : ppRes.status === "pending" ? "PENDING" : "FAILED";
     await db
       .update(topupTransactions)
-      .set({ status: "SUCCESS", mayar_paid_at: now, updated_at: now })
+      .set({
+        status: ppStatus,
+        mayar_paid_at: now,
+        portalpulsa_trxid: ppRes.trxId ?? null,
+        portalpulsa_sn: ppRes.sn ?? null,
+        portalpulsa_rc: ppRes.rc,
+        portalpulsa_message: ppRes.message,
+        updated_at: now,
+      })
       .where(eq(topupTransactions.id, topupTrx.id));
-    console.log(`[sandbox] Deposit ${orderId} credited Rp${topupTrx.price} to user ${topupTrx.user_id}`);
-    return NextResponse.json({ ok: true, message: "Deposit simulasi berhasil" });
+    console.log(`[sandbox] Direct topup ${orderId} executed via PP mock, status=${ppStatus}`);
+    return NextResponse.json({ ok: true, message: `Topup simulasi ${ppStatus.toLowerCase()}` });
   }
 
   // ── Game Voucher order ──────────────────────────────────────────────────────

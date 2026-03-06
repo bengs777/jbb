@@ -288,7 +288,32 @@ export function calculateSellPrice(buyPrice: number): number {
   return Math.ceil(buyPrice * 1.05);
 }
 
+// ─── Mock Mode ────────────────────────────────────────────────────────────────
+
+const MOCK_ENABLED = process.env.APIGAMES_MOCK === "true";
+
+const MOCK_PRODUCTS: ApiGamesProduct[] = [
+  { code: "ML-DIAMOND-86", name: "Mobile Legends 86 Diamond", buyPrice: 19000, gameId: "mobile_legends", nominalValue: "86 Diamond", status: "ACTIVE", raw: {} },
+  { code: "ML-DIAMOND-172", name: "Mobile Legends 172 Diamond", buyPrice: 37000, gameId: "mobile_legends", nominalValue: "172 Diamond", status: "ACTIVE", raw: {} },
+  { code: "ML-DIAMOND-257", name: "Mobile Legends 257 Diamond", buyPrice: 55000, gameId: "mobile_legends", nominalValue: "257 Diamond", status: "ACTIVE", raw: {} },
+  { code: "FF-DIAMOND-70", name: "Free Fire 70 Diamond", buyPrice: 14000, gameId: "free_fire", nominalValue: "70 Diamond", status: "ACTIVE", raw: {} },
+  { code: "FF-DIAMOND-140", name: "Free Fire 140 Diamond", buyPrice: 27000, gameId: "free_fire", nominalValue: "140 Diamond", status: "ACTIVE", raw: {} },
+  { code: "PUBG-UC-60", name: "PUBG Mobile 60 UC", buyPrice: 15000, gameId: "pubg_mobile", nominalValue: "60 UC", status: "ACTIVE", raw: {} },
+  { code: "PUBG-UC-325", name: "PUBG Mobile 325 UC", buyPrice: 75000, gameId: "pubg_mobile", nominalValue: "325 UC", status: "ACTIVE", raw: {} },
+  { code: "GENSHIN-60", name: "Genshin Impact 60 Primogem", buyPrice: 16000, gameId: "genshin_impact", nominalValue: "60 Primogem", status: "ACTIVE", raw: {} },
+  { code: "GENSHIN-330", name: "Genshin Impact 330 Primogem", buyPrice: 80000, gameId: "genshin_impact", nominalValue: "330 Primogem", status: "ACTIVE", raw: {} },
+  { code: "VALORANT-125", name: "Valorant 125 VP", buyPrice: 18000, gameId: "valorant", nominalValue: "125 VP", status: "ACTIVE", raw: {} },
+  { code: "VALORANT-650", name: "Valorant 650 VP", buyPrice: 88000, gameId: "valorant", nominalValue: "650 VP", status: "ACTIVE", raw: {} },
+  { code: "ROBLOX-400", name: "Roblox 400 Robux", buyPrice: 60000, gameId: "roblox", nominalValue: "400 Robux", status: "ACTIVE", raw: {} },
+  { code: "HOK-VOUCHER-50K", name: "Honor of Kings 50K Token", buyPrice: 50000, gameId: "honor_of_kings", nominalValue: "50K Token", status: "ACTIVE", raw: {} },
+];
+
 export async function getAllProducts(): Promise<ApiGamesProduct[]> {
+  if (MOCK_ENABLED) {
+    logger.info("[apigames:mock] returning mock products", { count: MOCK_PRODUCTS.length });
+    return MOCK_PRODUCTS;
+  }
+
   const config = getConfig();
 
   const products: ApiGamesProduct[] = [];
@@ -324,11 +349,18 @@ export async function getAllProducts(): Promise<ApiGamesProduct[]> {
 }
 
 export async function validateProductPrice(code: string): Promise<ApiGamesProduct> {
-  const config = getConfig();
   const normalizedCode = code.trim();
   if (!normalizedCode) {
     throw new ApiGamesError("Product code wajib diisi", "RESPONSE_ERROR", { code });
   }
+
+  if (MOCK_ENABLED) {
+    const mock = MOCK_PRODUCTS.find((p) => p.code.toLowerCase() === normalizedCode.toLowerCase());
+    if (!mock) throw new ApiGamesError("Produk tidak ditemukan di mock", "NOT_FOUND", { code: normalizedCode });
+    return mock;
+  }
+
+  const config = getConfig();
 
   try {
     const directPayload = await requestJson(config, `/products/${encodeURIComponent(normalizedCode)}`);

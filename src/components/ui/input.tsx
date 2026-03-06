@@ -21,9 +21,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           ref={ref}
           className={cn(
-            "w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-2.5 text-sm text-slate-900",
+            "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900",
             "placeholder:text-slate-400 transition-all duration-150",
-            "focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 focus:bg-white",
+            "focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary",
             "disabled:bg-slate-100 disabled:cursor-not-allowed disabled:text-slate-400",
             error && "border-red-400 bg-red-50 focus:ring-red-400/30 focus:border-red-400",
             className
@@ -31,7 +31,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {error && <p className="text-xs text-red-500">{error}</p>}
-        {helperText && !error && <p className="text-xs text-slate-400">{helperText}</p>}
+        {helperText && !error && <p className="text-xs text-slate-500">{helperText}</p>}
       </div>
     );
   }
@@ -57,9 +57,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={inputId}
           ref={ref}
           className={cn(
-            "w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-2.5 text-sm text-slate-900",
+            "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900",
             "placeholder:text-slate-400 transition-all duration-150",
-            "focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 focus:bg-white",
+            "focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary",
             "resize-none disabled:bg-slate-100",
             error && "border-red-400 bg-red-50 focus:ring-red-400/30 focus:border-red-400",
             className
@@ -91,8 +91,8 @@ export function Select({ label, error, options, id, className, children, ...prop
       <select
         id={inputId}
         className={cn(
-          "w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-2.5 text-sm text-slate-900",
-          "transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 focus:bg-white",
+          "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900",
+          "transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary",
           error && "border-red-400",
           className
         )}

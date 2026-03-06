@@ -81,20 +81,20 @@ export function Navbar() {
   return (
     <>
       {/* ── Top Navbar ────────────────────────────────────────────── */}
-      <nav className="sticky top-0 z-50 glass border-b border-slate-200/70 shadow-sm">
+      <nav className="sticky top-0 z-50 bg-primary text-white border-b border-primary/70 shadow-lg backdrop-blur supports-[backdrop-filter]:bg-primary/95">
         <div className="max-w-6xl mx-auto px-3 sm:px-4">
-          <div className="flex items-center justify-between h-14 md:h-16">
+          <div className="flex items-center justify-between h-16 md:h-20">
 
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
-              <Image src="/logo.png" alt="JBB" width={34} height={34} className="drop-shadow-sm" />
-              <span className="font-black text-blue-700 tracking-tight hidden sm:inline">
+            <Link href="/" className="flex items-center gap-3 flex-shrink-0">
+              <Image src="/logo.png" alt="JBB" width={40} height={40} className="rounded-md ring-2 ring-white/35 shadow" />
+              <span className="font-semibold text-white tracking-tight text-xl hidden sm:inline drop-shadow-sm">
                 Jual Beli Buntu
               </span>
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-0.5">
+            <div className="hidden md:flex items-center gap-1">
               {links.map((link) => {
                 const active = pathname === link.href || pathname.startsWith(link.href + "/");
                 return (
@@ -103,16 +103,16 @@ export function Navbar() {
                     href={link.href}
                     title={link.label}
                     className={cn(
-                      "flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-150",
+                      "flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-200 rounded-md border",
                       active
-                        ? "bg-blue-600 text-white shadow-sm shadow-blue-200"
-                        : "text-slate-500 hover:text-blue-700 hover:bg-blue-50"
+                        ? "bg-white text-primary border-white shadow-sm"
+                        : "text-white/95 border-transparent hover:bg-black/15 hover:border-white/30"
                     )}
                   >
                     <span className="flex-shrink-0">{link.icon}</span>
                     <span className="hidden lg:inline whitespace-nowrap">{link.label}</span>
                     {link.href === "/buyer/cart" && cartCount > 0 && (
-                      <span className="min-w-[18px] h-[18px] bg-red-500 text-white text-[9px] font-black rounded-full flex items-center justify-center px-1">
+                      <span className="min-w-[20px] h-[20px] bg-white text-primary text-xs font-bold rounded-full flex items-center justify-center px-1 ring-1 ring-primary/10">
                         {cartCount > 99 ? "99+" : cartCount}
                       </span>
                     )}
@@ -122,29 +122,29 @@ export function Navbar() {
             </div>
 
             {/* Right Section */}
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-3">
               {isPending ? (
-                <div className="h-8 w-20 skeleton rounded-lg" />
+                <div className="h-10 w-24 bg-gray-200 rounded animate-pulse" />
               ) : session ? (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <RoleBadge role={role} />
-                  <span className="text-sm text-slate-700 font-medium truncate max-w-28 hidden lg:inline">
+                  <span className="text-sm font-semibold text-white/95 truncate max-w-32 hidden lg:inline">
                     {session.user.name}
                   </span>
                   <button
                     onClick={() => signOut()}
-                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"
+                    className="p-2 text-white bg-black/10 hover:bg-black/20 border border-white/20 rounded-md transition-all duration-200"
                     title="Logout"
                   >
-                    <LogOut className="h-4 w-4" />
+                    <LogOut className="h-5 w-5" />
                   </button>
                 </div>
               ) : (
                 <div className="flex gap-2">
-                  <Link href="/login" className="px-3.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-xl transition-colors">
+                  <Link href="/login" className="px-4 py-2 text-sm font-semibold text-white bg-black/10 hover:bg-black/20 border border-white/20 rounded-md transition-all duration-200">
                     Masuk
                   </Link>
-                  <Link href="/register" className="px-3.5 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-sm shadow-blue-100">
+                  <Link href="/register" className="px-4 py-2 text-sm font-semibold text-primary bg-white hover:bg-gray-50 border border-white rounded-md transition-all duration-200 shadow-sm">
                     Daftar
                   </Link>
                 </div>
@@ -156,35 +156,35 @@ export function Navbar() {
               {session && role === "BUYER" && (
                 <Link
                   href="/buyer/cart"
-                  className="relative p-2 text-slate-500 hover:text-blue-700 hover:bg-blue-50 rounded-xl transition-colors"
+                  className="relative p-3 text-white bg-black/10 hover:bg-black/20 border border-white/20 rounded-md transition-all duration-200"
                 >
-                  <ShoppingCart className="h-5 w-5" />
+                  <ShoppingCart className="h-6 w-6" />
                   {cartCount > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center px-1">
+                    <span className="absolute -top-1 -right-1 min-w-[20px] h-[20px] bg-white text-primary text-xs font-bold rounded-full flex items-center justify-center px-1 ring-1 ring-primary/10">
                       {cartCount > 99 ? "99+" : cartCount}
                     </span>
                   )}
                 </Link>
               )}
               {!session && !isPending && (
-                <Link href="/login" className="px-3 py-1.5 text-sm font-semibold text-blue-700 hover:bg-blue-50 rounded-xl">
+                <Link href="/login" className="px-3 py-2 text-sm font-semibold text-white bg-black/10 hover:bg-black/20 border border-white/20 rounded-md transition-all duration-200">
                   Masuk
                 </Link>
               )}
               <button
                 onClick={() => setOpen((o) => !o)}
-                className="p-2 text-slate-500 hover:text-blue-700 hover:bg-blue-50 rounded-xl transition-colors"
+                className="p-3 text-white bg-black/10 hover:bg-black/20 border border-white/20 rounded-md transition-all duration-200"
                 aria-label="Toggle menu"
               >
-                {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
             </div>
           </div>
 
           {/* Mobile Slide-Down Menu */}
           {open && (
-            <div className="md:hidden pb-3 border-t border-slate-100 mt-1 animate-fade-up">
-              <div className="flex flex-col gap-0.5 pt-2">
+            <div className="md:hidden pb-4 border-t border-black/10 mt-2 bg-white shadow-lg rounded-b-md">
+              <div className="flex flex-col gap-1 pt-3">
                 {links.map((link) => {
                   const active = pathname === link.href || pathname.startsWith(link.href + "/");
                   return (
@@ -193,10 +193,10 @@ export function Navbar() {
                       href={link.href}
                       onClick={() => setOpen(false)}
                       className={cn(
-                        "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all",
+                        "flex items-center gap-4 px-4 py-4 text-base font-semibold rounded-md transition-all duration-200 border",
                         active
-                          ? "bg-blue-600 text-white"
-                          : "text-slate-700 hover:bg-slate-50 hover:text-blue-700"
+                          ? "bg-primary text-white border-primary"
+                          : "text-gray-700 border-transparent hover:bg-gray-100"
                       )}
                     >
                       <span className={cn("flex-shrink-0", active ? "text-white" : "text-slate-400")}>
@@ -204,7 +204,7 @@ export function Navbar() {
                       </span>
                       {link.label}
                       {link.href === "/buyer/cart" && cartCount > 0 && (
-                        <span className="ml-auto min-w-[20px] h-5 bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center px-1">
+                        <span className="ml-auto min-w-[20px] h-5 bg-primary text-white text-[10px] font-black rounded-full flex items-center justify-center px-1">
                           {cartCount}
                         </span>
                       )}
@@ -217,7 +217,7 @@ export function Navbar() {
                     <Link
                       href="/register"
                       onClick={() => setOpen(false)}
-                      className="block px-3 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-xl text-center mt-1 shadow-sm shadow-blue-200"
+                      className="block px-3 py-2.5 text-sm font-semibold text-white bg-primary rounded-xl text-center mt-1 shadow-sm shadow-primary/20"
                     >
                       Buat Akun Gratis
                     </Link>
@@ -256,20 +256,20 @@ export function Navbar() {
                   href={link.href}
                   className={cn(
                     "relative flex flex-col items-center justify-center gap-0.5 flex-1 h-14 text-[10px] font-semibold transition-all",
-                    active ? "text-blue-600" : "text-slate-400 active:bg-slate-50"
+                    active ? "text-primary" : "text-slate-400 active:bg-slate-50"
                   )}
                 >
                   <span className={cn("transition-transform duration-150", active ? "scale-110" : "")}>
                     {link.icon}
                   </span>
-                  <span className={active ? "text-blue-600" : ""}>{link.label}</span>
+                  <span className={active ? "text-primary" : ""}>{link.label}</span>
                   {link.href === "/buyer/cart" && cartCount > 0 && (
-                    <span className="absolute top-1.5 left-1/2 translate-x-1 min-w-[16px] h-4 bg-red-500 text-white text-[8px] font-black rounded-full flex items-center justify-center px-1">
+                    <span className="absolute top-1.5 left-1/2 translate-x-1 min-w-[16px] h-4 bg-primary text-white text-[8px] font-medium rounded-full flex items-center justify-center px-1">
                       {cartCount > 9 ? "9+" : cartCount}
                     </span>
                   )}
                   {active && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-blue-600 rounded-full" />
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-primary rounded-full" />
                   )}
                 </Link>
               );
@@ -279,7 +279,7 @@ export function Navbar() {
                 onClick={() => setOpen((o) => !o)}
                 className={cn(
                   "flex flex-col items-center justify-center gap-0.5 flex-1 h-14 text-[10px] font-semibold transition-colors",
-                  open ? "text-blue-600" : "text-slate-400 active:bg-slate-50"
+                  open ? "text-primary" : "text-slate-400 active:bg-slate-50"
                 )}
               >
                 <Menu className="h-5 w-5" />
@@ -292,11 +292,11 @@ export function Navbar() {
 
       {/* ── Guest bottom bar ─────────────────────────────────────── */}
       {!session && !isPending && (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 glass border-t border-slate-200/70 px-4 py-2 flex gap-2 shadow-[0_-1px_20px_rgba(0,0,0,0.06)]">
-          <Link href="/login"    className="flex-1 text-center py-2.5 text-sm font-semibold text-blue-700 border border-blue-200 rounded-xl hover:bg-blue-50 transition-colors">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 glass border-t border-gray-200 px-4 py-2 flex gap-2 shadow-md">
+          <Link href="/login"    className="flex-1 text-center py-2.5 text-sm font-semibold text-primary border border-primary rounded-md hover:bg-primary hover:text-white transition-colors">
             Masuk
           </Link>
-          <Link href="/register" className="flex-1 text-center py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-colors shadow-sm shadow-blue-100">
+          <Link href="/register" className="flex-1 text-center py-2.5 text-sm font-semibold text-white bg-primary rounded-md hover:bg-primary-hover transition-colors shadow-sm">
             Daftar Gratis
           </Link>
         </div>

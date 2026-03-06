@@ -60,8 +60,8 @@ export default function GameStatusPage() {
       <div className="max-w-lg mx-auto px-4 py-16 text-center">
         {loading ? (
           <div className="flex flex-col items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center animate-pulse">
-              <Gamepad2 className="w-8 h-8 text-purple-500" />
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center animate-pulse">
+              <Gamepad2 className="w-8 h-8 text-primary" />
             </div>
             <p className="text-gray-500">Mengecek status pembayaran…</p>
           </div>
@@ -87,10 +87,10 @@ export default function GameStatusPage() {
               </div>
               <div className="flex justify-between border-t border-gray-200 pt-2 mt-2">
                 <span className="text-gray-500">Total</span>
-                <span className="font-black text-purple-700">Rp {order.amount.toLocaleString("id-ID")}</span>
+                <span className="font-black text-primary">Rp {order.amount.toLocaleString("id-ID")}</span>
               </div>
             </div>
-            <Link href="/games" className="block w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition text-sm">
+            <Link href="/games" className="block w-full bg-primary hover:bg-primary-hover text-white font-bold py-3 rounded-xl transition text-sm">
               Beli Lagi
             </Link>
           </div>
@@ -103,7 +103,7 @@ export default function GameStatusPage() {
               {order?.status === "EXPIRED" ? "Pembayaran Kedaluwarsa" : "Pembayaran Gagal"}
             </h1>
             <p className="text-gray-500 text-sm mb-6">Silakan buat order baru.</p>
-            <Link href="/games" className="block w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition text-sm">
+            <Link href="/games" className="block w-full bg-primary hover:bg-primary-hover text-white font-bold py-3 rounded-xl transition text-sm">
               Coba Lagi
             </Link>
           </div>
@@ -122,11 +122,11 @@ export default function GameStatusPage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">Total</span>
-                  <span className="font-black text-purple-700">Rp {order.amount.toLocaleString("id-ID")}</span>
+                  <span className="font-black text-primary">Rp {order.amount.toLocaleString("id-ID")}</span>
                 </div>
               </div>
             )}
-            <Link href="/games" className="text-sm text-purple-600 hover:underline">
+            <Link href="/games" className="text-sm text-primary hover:underline">
               Batal &amp; Kembali ke Games
             </Link>
           </div>

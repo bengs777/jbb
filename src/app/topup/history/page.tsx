@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const STATUS_STYLES: Record<string, string> = {
   WAITING_PAYMENT: "bg-yellow-100 text-yellow-700",
-  PENDING: "bg-blue-100 text-blue-700",
+  PENDING: "bg-primary/10 text-primary",
   SUCCESS: "bg-green-100 text-green-700",
   FAILED: "bg-red-100 text-red-700",
   REFUNDED: "bg-gray-100 text-gray-600",
@@ -49,13 +49,13 @@ export default function TopupHistoryPage() {
 
       <div className="max-w-2xl mx-auto px-4 pt-8 pb-16">
         <div className="flex items-center gap-3 mb-6">
-          <Link href="/topup" className="text-indigo-600 hover:text-indigo-800">
+          <Link href="/topup" className="text-primary hover:text-primary/80">
             <ArrowLeft size={18} />
           </Link>
           <h1 className="text-xl font-black text-gray-800">Riwayat Top-Up</h1>
           <button
             onClick={() => fetchTransactions(page)}
-            className="ml-auto text-gray-400 hover:text-indigo-600"
+            className="ml-auto text-gray-400 hover:text-primary"
           >
             <RefreshCw size={16} className={loading ? "animate-spin" : ""} />
           </button>
@@ -70,7 +70,7 @@ export default function TopupHistoryPage() {
         ) : transactions.length === 0 ? (
           <div className="text-center text-gray-400 py-16">
             <p className="text-lg">Belum ada transaksi</p>
-            <Link href="/topup" className="text-indigo-600 text-sm hover:underline mt-2 block">
+            <Link href="/topup" className="text-primary text-sm hover:underline mt-2 block">
               Lakukan top-up pertama →
             </Link>
           </div>

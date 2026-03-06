@@ -55,7 +55,7 @@ export default function DepositPage() {
         {/* Back */}
         <Link
           href="/topup"
-          className="inline-flex items-center gap-1.5 text-sm text-indigo-600 hover:underline mb-6"
+          className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline mb-6"
         >
           <ArrowLeft size={14} />
           Kembali ke Top-Up
@@ -81,8 +81,8 @@ export default function DepositPage() {
                   onClick={() => setAmount(String(p))}
                   className={`py-2 rounded-xl border-2 text-sm font-semibold transition ${
                     numericAmount === p
-                      ? "border-indigo-500 bg-indigo-50 text-indigo-700"
-                      : "border-gray-100 bg-gray-50 text-gray-700 hover:border-indigo-200"
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-gray-100 bg-gray-50 text-gray-700 hover:border-primary/20"
                   }`}
                 >
                   {formatRupiah(p)}
@@ -108,7 +108,7 @@ export default function DepositPage() {
                   setAmount(e.target.value.replace(/[^0-9]/g, ""))
                 }
                 placeholder="0"
-                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-primary/20"
               />
             </div>
             {numericAmount > 0 && (
@@ -149,7 +149,7 @@ export default function DepositPage() {
             <button
               onClick={handleDeposit}
               disabled={loading || !numericAmount}
-              className="w-full bg-indigo-600 text-white font-bold py-4 rounded-2xl hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              className="w-full bg-primary text-white font-bold py-4 rounded-2xl hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition"
             >
               {loading ? "Membuat link..." : "Lanjutkan Pembayaran"}
             </button>

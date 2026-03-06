@@ -10,7 +10,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { createHash } from "crypto";
+import { createHash, timingSafeEqual } from "crypto";
 import { db } from "@/db";
 import { topupTransactions } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -25,7 +25,11 @@ function verifyPPSignature(trxId: string, sign: string): boolean {
   const expected = createHash("md5")
     .update(MEMBER_ID + API_KEY + trxId)
     .digest("hex");
-  return expected === sign;
+  try {
+    return timingSafeEqual(Buffer.from(expected, "utf8"), Buffer.from(sign, "utf8"));
+  } catch {
+    return false;
+  }
 }
 
 interface PPWebhookPayload {
@@ -100,6 +104,10 @@ export async function POST(req: NextRequest) {
   const isSuccess = rc === "00";
   const isFailed = rc !== "00" && rc !== "06"; // 06 = masih pending
 
+  // Direct payment orders (paid via Mayar, no saldo hold) must not touch balance
+  const isDirectPayment =
+    trx.mayar_payment_id !== null && trx.product_code !== "__DEPOSIT__";
+
   if (isSuccess) {
     // 4a. Tandai sukses
     await db
@@ -114,22 +122,25 @@ export async function POST(req: NextRequest) {
       })
       .where(eq(topupTransactions.id, trx.id));
 
-    // Debit hold → final (hold sudah dipotong saat order, sekarang konfirmasi saja)
-    await mutatBalance({
-      userId: trx.user_id,
-      amount: -trx.price,
-      type: "ORDER_DEBIT",
-      note: `Konfirmasi debit ${trx.invoice_id}`,
-      topupTrxId: trx.id,
-    });
+    if (!isDirectPayment) {
+      // Wallet order: debit held saldo → confirm deduction
+      await mutatBalance({
+        userId: trx.user_id,
+        amount: -trx.price,
+        type: "ORDER_DEBIT",
+        note: `Konfirmasi debit ${trx.invoice_id}`,
+        topupTrxId: trx.id,
+      });
+    }
 
     logger.info("[webhook:pp] success", {
       invoiceId: trx.invoice_id,
       trxId: trx_id,
       sn,
+      isDirectPayment,
     });
   } else if (isFailed) {
-    // 4b. Gagal → refund hold
+    // 4b. Gagal
     await db
       .update(topupTransactions)
       .set({
@@ -142,17 +153,21 @@ export async function POST(req: NextRequest) {
       })
       .where(eq(topupTransactions.id, trx.id));
 
-    await mutatBalance({
-      userId: trx.user_id,
-      amount: trx.price,
-      type: "REFUND",
-      note: `Refund gagal ${trx.invoice_id} (RC: ${rc})`,
-      topupTrxId: trx.id,
-    });
+    if (!isDirectPayment) {
+      // Wallet order: refund held saldo
+      await mutatBalance({
+        userId: trx.user_id,
+        amount: trx.price,
+        type: "REFUND",
+        note: `Refund gagal ${trx.invoice_id} (RC: ${rc})`,
+        topupTrxId: trx.id,
+      });
+    }
 
-    logger.info("[webhook:pp] failed+refunded", {
+    logger.info("[webhook:pp] failed", {
       invoiceId: trx.invoice_id,
       rc,
+      isDirectPayment,
     });
   }
   // rc === "06" → masih pending, tidak ada action

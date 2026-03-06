@@ -6,6 +6,8 @@
  * Set MAYAR_USE_MOCK=true to skip real API calls (local / sandbox testing).
  */
 
+import { timingSafeEqual, createHmac } from "crypto";
+
 const BASE_URL = (
   process.env.MAYAR_BASE_URL ?? "https://api.mayar.id/hl/v1"
 ).trim();
@@ -185,9 +187,13 @@ export async function createMayarPayment(
 export function verifyMayarWebhook(
   headers: Headers | Record<string, string>
 ): boolean {
-  // Skip in development if no token configured
+  // In production, reject if no token is configured
   if (!WEBHOOK_TOKEN) {
-    console.warn("[mayar] MAYAR_WEBHOOK_TOKEN not set — skipping webhook verification");
+    if (process.env.NODE_ENV === "production") {
+      console.error("[mayar] MAYAR_WEBHOOK_TOKEN not set in production — rejecting webhook");
+      return false;
+    }
+    console.warn("[mayar] MAYAR_WEBHOOK_TOKEN not set — skipping webhook verification (dev only)");
     return true;
   }
 
@@ -202,7 +208,16 @@ export function verifyMayarWebhook(
     getHeader("x-mayar-token") ??
     getHeader("x-mayar-signature");
 
-  return token === WEBHOOK_TOKEN;
+  if (!token) return false;
+
+  try {
+    const expected = Buffer.from(WEBHOOK_TOKEN, "utf8");
+    const received = Buffer.from(token, "utf8");
+    if (expected.length !== received.length) return false;
+    return timingSafeEqual(expected, received);
+  } catch {
+    return false;
+  }
 }
 
 // ─── Status normalizer ────────────────────────────────────────────────────────

@@ -430,6 +430,18 @@ export const gameOrders = sqliteTable(
       enum: ["WAITING_PAYMENT", "PAID", "FAILED", "EXPIRED"],
     }).notNull().default("WAITING_PAYMENT"),
 
+    // Admin profit (sell_price - buy_price, ~5% margin)
+    admin_profit: integer("admin_profit").notNull().default(0),
+
+    // PortalPulsa delivery
+    pp_trxid: text("pp_trxid"),
+    pp_sn: text("pp_sn"),
+    pp_rc: text("pp_rc"),
+    pp_message: text("pp_message"),
+    delivery_status: text("delivery_status", {
+      enum: ["PENDING", "PROCESSING", "DELIVERED", "FAILED"],
+    }).notNull().default("PENDING"),
+
     created_at: text("created_at").default(sql`(datetime('now'))`),
     updated_at: text("updated_at").default(sql`(datetime('now'))`),
     expired_at: text("expired_at").notNull(),
@@ -466,6 +478,30 @@ export const digitalProducts = sqliteTable(
   })
 );
 
+// ─── MIKROTIK VOUCHERS ────────────────────────────────────────────────────────
+export const mikrotikVouchers = sqliteTable(
+  "mikrotik_vouchers",
+  {
+    id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+    code: text("code").notNull().unique(),
+    profile: text("profile").notNull(),
+    price: integer("price").notNull().default(0),
+    duration_hours: integer("duration_hours"),
+    limit_bytes_total: integer("limit_bytes_total"),
+    comment: text("comment"),
+    status: text("status", { enum: ["unused", "used", "expired"] }).notNull().default("unused"),
+    created_by: text("created_by").references(() => users.id, { onDelete: "set null" }),
+    used_by_mac: text("used_by_mac"),
+    used_at: text("used_at"),
+    created_at: text("created_at").default(sql`(datetime('now'))`),
+    updated_at: text("updated_at").default(sql`(datetime('now'))`),
+  },
+  (t) => ({
+    statusIdx: index("mk_vouchers_status_idx").on(t.status),
+    profileIdx: index("mk_vouchers_profile_idx").on(t.profile),
+  })
+);
+
 // ─── TYPE EXPORTS ─────────────────────────────────────────────────────────────
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
@@ -487,3 +523,5 @@ export type GameOrder = typeof gameOrders.$inferSelect;
 export type NewGameOrder = typeof gameOrders.$inferInsert;
 export type DigitalProduct = typeof digitalProducts.$inferSelect;
 export type NewDigitalProduct = typeof digitalProducts.$inferInsert;
+export type MikrotikVoucher = typeof mikrotikVouchers.$inferSelect;
+export type NewMikrotikVoucher = typeof mikrotikVouchers.$inferInsert;

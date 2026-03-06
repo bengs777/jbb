@@ -11,6 +11,7 @@ import { formatRupiah } from "@/lib/utils";
 import {
   ArrowLeft, RefreshCw, ChevronRight, CircleCheck, Wallet,
   Smartphone, Wifi, Zap, Tv, Phone, Droplets, ShieldCheck,
+  CreditCard,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -49,6 +50,7 @@ export default function CategoryPage() {
   const [ordering, setOrdering]         = useState(false);
   const [error, setError]               = useState("");
   const [result, setResult]             = useState<any | null>(null);
+  const [payMethod, setPayMethod]       = useState<"wallet" | "direct">("direct");
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -83,11 +85,18 @@ export default function CategoryPage() {
       const res = await fetch("/api/topup/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productCode: selectedProduct.code, targetNumber: targetNumber.trim() }),
+        body: JSON.stringify({
+          productCode: selectedProduct.code,
+          targetNumber: targetNumber.trim(),
+          payWithBalance: payMethod === "wallet",
+        }),
       });
       const json = await res.json();
       if (!res.ok || !json.success) {
         setError(json.error ?? "Gagal melakukan order");
+      } else if (json.data.paymentUrl) {
+        // Direct payment — redirect user to Mayar payment page
+        window.location.href = json.data.paymentUrl;
       } else {
         setResult(json.data);
         fetchData(); // refresh balance
@@ -170,6 +179,41 @@ export default function CategoryPage() {
 
         {!result && (
           <>
+            {/* ── Metode Pembayaran ───────────────────────────────── */}
+            <div className="bg-white rounded-3xl shadow-sm ring-1 ring-black/[.04] p-5">
+              <p className="text-xs font-black text-gray-500 uppercase tracking-wide mb-3">Metode Pembayaran</p>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => setPayMethod("direct")}
+                  className={`flex items-center gap-2.5 p-3.5 rounded-2xl border-2 transition text-left ${
+                    payMethod === "direct"
+                      ? "border-primary bg-primary/10"
+                      : "border-gray-100 bg-gray-50 hover:border-primary/20"
+                  }`}
+                >
+                  <CreditCard size={18} className={payMethod === "direct" ? "text-primary" : "text-gray-400"} />
+                  <div>
+                    <p className={`text-xs font-bold ${payMethod === "direct" ? "text-primary" : "text-gray-700"}`}>Bayar Langsung</p>
+                    <p className="text-[10px] text-gray-400">Transfer / QRIS</p>
+                  </div>
+                </button>
+                <button
+                  onClick={() => setPayMethod("wallet")}
+                  className={`flex items-center gap-2.5 p-3.5 rounded-2xl border-2 transition text-left ${
+                    payMethod === "wallet"
+                      ? "border-primary bg-primary/10"
+                      : "border-gray-100 bg-gray-50 hover:border-primary/20"
+                  }`}
+                >
+                  <Wallet size={18} className={payMethod === "wallet" ? "text-primary" : "text-gray-400"} />
+                  <div>
+                    <p className={`text-xs font-bold ${payMethod === "wallet" ? "text-primary" : "text-gray-700"}`}>Saldo</p>
+                    <p className="text-[10px] text-gray-400">{balance !== null ? formatRupiah(balance) : "—"}</p>
+                  </div>
+                </button>
+              </div>
+            </div>
+
             {/* ── Operator / Brand Tabs ────────────────────────────── */}
             {operators.length > 1 && (
               <div className="bg-white rounded-3xl shadow-sm ring-1 ring-black/[.04] p-5">
@@ -188,8 +232,8 @@ export default function CategoryPage() {
                       onClick={() => { setSelectedOperator(null); setSelectedProduct(null); }}
                       className={`px-3 py-1.5 rounded-xl text-xs font-semibold border-2 transition ${
                         !selectedOperator
-                          ? "border-indigo-500 bg-indigo-50 text-indigo-700"
-                          : "border-gray-100 bg-gray-50 text-gray-600 hover:border-indigo-200"
+                          ? "border-primary bg-primary/10 text-primary"
+                          : "border-gray-100 bg-gray-50 text-gray-600 hover:border-primary/30"
                       }`}
                     >
                       Semua
@@ -200,8 +244,8 @@ export default function CategoryPage() {
                         onClick={() => { setSelectedOperator(selectedOperator === op ? null : op); setSelectedProduct(null); }}
                         className={`px-3 py-1.5 rounded-xl text-xs font-semibold border-2 transition ${
                           selectedOperator === op
-                            ? "border-indigo-500 bg-indigo-50 text-indigo-700"
-                            : "border-gray-100 bg-gray-50 text-gray-600 hover:border-indigo-200"
+                            ? "border-primary bg-primary/10 text-primary"
+                            : "border-gray-100 bg-gray-50 text-gray-600 hover:border-primary/30"
                         }`}
                       >
                         {op}
@@ -224,7 +268,7 @@ export default function CategoryPage() {
                 onChange={(e) => setTargetNumber(e.target.value.replace(/[^0-9]/g, ""))}
                 placeholder={meta.inputPlaceholder}
                 className="w-full border-2 border-gray-200 rounded-2xl px-4 py-3.5 text-base font-semibold text-gray-800
-                           focus:outline-none focus:border-indigo-400 transition placeholder:font-normal placeholder:text-gray-300"
+                           focus:outline-none focus:border-primary transition placeholder:font-normal placeholder:text-gray-300"
               />
             </div>
 
@@ -244,7 +288,7 @@ export default function CategoryPage() {
               ) : filtered.length === 0 ? (
                 <div className="text-center py-10">
                   <p className="text-sm text-gray-400">Produk tidak tersedia</p>
-                  <button onClick={fetchData} className="mt-3 text-xs text-indigo-600 flex items-center gap-1 mx-auto hover:underline">
+                  <button onClick={fetchData} className="mt-3 text-xs text-primary flex items-center gap-1 mx-auto hover:underline">
                     <RefreshCw size={11} /> Muat ulang
                   </button>
                 </div>
@@ -252,25 +296,27 @@ export default function CategoryPage() {
                 <div className="grid grid-cols-2 gap-2.5">
                   {filtered.map((p) => {
                     const active    = selectedProduct?.code === p.code;
-                    const canAfford = balance !== null && balance >= p.price;
+                    const canAfford = payMethod === "direct" || (balance !== null && balance >= p.price);
                     return (
                       <button
                         key={p.code}
                         disabled={!canAfford}
                         onClick={() => setSelectedProduct(active ? null : p)}
                         className={`relative text-left p-3.5 rounded-2xl border-2 transition
-                          ${active ? "border-indigo-500 bg-indigo-50 shadow-md shadow-indigo-100" : "border-gray-100 bg-gray-50 hover:border-indigo-200 hover:bg-indigo-50/30"}
+                          ${active ? "border-primary bg-primary/10 shadow-md shadow-primary/20" : "border-gray-100 bg-gray-50 hover:border-primary/30 hover:bg-primary/5"}
                           ${!canAfford ? "opacity-40 cursor-not-allowed" : ""}`}
                       >
                         {active && (
-                          <CircleCheck size={14} className="absolute top-2.5 right-2.5 text-indigo-500" />
+                          <CircleCheck size={14} className="absolute top-2.5 right-2.5 text-primary" />
                         )}
                         <p className="text-[11px] text-gray-400 font-medium">{p.operator}</p>
                         <p className="text-sm font-bold text-gray-800 leading-tight mt-0.5">{p.name}</p>
-                        <p className={`text-sm font-black mt-2 ${active ? "text-indigo-600" : "text-gray-700"}`}>
+                        <p className={`text-sm font-black mt-2 ${active ? "text-primary" : "text-gray-700"}`}>
                           {formatRupiah(p.price)}
                         </p>
-                        {!canAfford && <p className="text-[10px] text-red-400 mt-0.5 font-medium">Saldo kurang</p>}
+                        {payMethod === "wallet" && !canAfford && (
+                          <p className="text-[10px] text-red-400 mt-0.5 font-medium">Saldo kurang</p>
+                        )}
                       </button>
                     );
                   })}
@@ -298,12 +344,20 @@ export default function CategoryPage() {
                   <hr className="border-dashed" />
                   <div className="flex justify-between font-bold">
                     <span className="text-gray-600">Total Bayar</span>
-                    <span className="text-indigo-600 text-base">{formatRupiah(selectedProduct.price)}</span>
+                    <span className="text-primary text-base">{formatRupiah(selectedProduct.price)}</span>
                   </div>
-                  <div className="flex justify-between text-xs text-gray-400">
-                    <span>Saldo setelah transaksi</span>
-                    <span>{balance !== null ? formatRupiah(Math.max(0, balance - selectedProduct.price)) : "—"}</span>
-                  </div>
+                  {payMethod === "wallet" && (
+                    <div className="flex justify-between text-xs text-gray-400">
+                      <span>Saldo setelah transaksi</span>
+                      <span>{balance !== null ? formatRupiah(Math.max(0, balance - selectedProduct.price)) : "—"}</span>
+                    </div>
+                  )}
+                  {payMethod === "direct" && (
+                    <div className="flex justify-between text-xs text-gray-400">
+                      <span>Metode</span>
+                      <span className="font-semibold text-primary">Transfer / QRIS</span>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -315,8 +369,8 @@ export default function CategoryPage() {
               </div>
             )}
 
-            {/* Saldo kurang */}
-            {balance !== null && selectedProduct && balance < selectedProduct.price && (
+            {/* Saldo kurang (wallet mode only) */}
+            {payMethod === "wallet" && balance !== null && selectedProduct && balance < selectedProduct.price && (
               <div className="bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 flex items-center justify-between gap-3">
                 <div>
                   <p className="text-sm text-amber-800 font-bold">Saldo tidak mencukupi</p>
@@ -333,32 +387,36 @@ export default function CategoryPage() {
               </div>
             )}
 
-            {/* Beli Button */}
+            {/* Order Button */}
             <button
               onClick={handleOrder}
               disabled={
                 !selectedProduct || !targetNumber.trim() || ordering ||
-                (balance !== null && balance < (selectedProduct?.price ?? 0))
+                (payMethod === "wallet" && balance !== null && balance < (selectedProduct?.price ?? 0))
               }
-              className="w-full bg-indigo-600 text-white font-black py-4 rounded-2xl
-                         hover:bg-indigo-700 active:scale-[0.98]
+              className="w-full bg-primary text-white font-black py-4 rounded-2xl
+                         hover:bg-primary-hover active:scale-[0.98]
                          disabled:opacity-40 disabled:cursor-not-allowed
                          transition flex items-center justify-center gap-2
-                         shadow-lg shadow-indigo-200 text-[15px]"
+                         shadow-lg shadow-primary/20 text-[15px]"
             >
               {ordering ? (
                 <><RefreshCw size={16} className="animate-spin" /> Memproses...</>
+              ) : payMethod === "direct" ? (
+                <><CreditCard size={16} /> Bayar Sekarang <ChevronRight size={16} /></>
               ) : (
                 <>Beli Sekarang <ChevronRight size={16} /></>
               )}
             </button>
 
-            <p className="text-center text-xs text-gray-400">
-              Saldo kurang?{" "}
-              <Link href="/topup/deposit" className="text-indigo-600 font-semibold hover:underline">
-                Isi saldo sekarang
-              </Link>
-            </p>
+            {payMethod === "wallet" && (
+              <p className="text-center text-xs text-gray-400">
+                Saldo kurang?{" "}
+                <Link href="/topup/deposit" className="text-primary font-semibold hover:underline">
+                  Isi saldo sekarang
+                </Link>
+              </p>
+            )}
           </>
         )}
       </div>

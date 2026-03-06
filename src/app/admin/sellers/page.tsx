@@ -111,9 +111,9 @@ export default function AdminSellersPage() {
   ];
 
   const tabColor: Record<string, string> = {
-    orange: "bg-orange-500 text-white border-orange-500",
-    rose: "bg-rose-500 text-white border-rose-500",
-    blue: "bg-blue-500 text-white border-blue-500",
+    orange: "bg-primary text-white border-primary",
+    rose: "bg-primary text-white border-primary",
+    blue: "bg-primary text-white border-primary",
   };
   const tabInactive = "bg-white text-gray-500 border-gray-200 hover:border-gray-300";
 
@@ -122,7 +122,7 @@ export default function AdminSellersPage() {
       <Navbar />
 
       {/* Header */}
-      <div className="bg-gradient-to-br from-rose-600 via-red-600 to-orange-500 text-white">
+      <div className="bg-primary text-white">
         <div className="max-w-2xl mx-auto px-4 pt-8 pb-16">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
@@ -130,7 +130,7 @@ export default function AdminSellersPage() {
             </div>
             <div>
               <h1 className="text-2xl font-black tracking-tight">Kelola Anggota</h1>
-              <p className="text-red-100/80 text-sm mt-0.5">Pengajuan Penjual &amp; Kurir</p>
+              <p className="text-primary-foreground/70 text-sm mt-0.5">Pengajuan Penjual &amp; Kurir</p>
             </div>
           </div>
         </div>
@@ -187,7 +187,7 @@ export default function AdminSellersPage() {
             {loadingSellers ? (
               <div className="pt-16"><PageLoader /></div>
             ) : sellers.length === 0 ? (
-              <EmptyState icon={<Store className="h-8 w-8 text-orange-400" />} color="orange"
+              <EmptyState icon={<Store className="h-8 w-8 text-primary" />} color="orange"
                 title="Belum Ada Penjual" desc="Belum ada pengguna dengan peran Penjual." />
             ) : (
               <>
@@ -206,7 +206,7 @@ export default function AdminSellersPage() {
             {loadingKurirs ? (
               <div className="pt-16"><PageLoader /></div>
             ) : kurirs.length === 0 ? (
-              <EmptyState icon={<Truck className="h-8 w-8 text-blue-400" />} color="blue"
+              <EmptyState icon={<Truck className="h-8 w-8 text-primary" />} color="blue"
                 title="Belum Ada Kurir" desc="Belum ada pengguna dengan peran Kurir." />
             ) : (
               <>
@@ -228,7 +228,7 @@ export default function AdminSellersPage() {
 function EmptyState({ icon, color, title, desc }: {
   icon: React.ReactNode; color: string; title: string; desc: string;
 }) {
-  const bg: Record<string, string> = { green: "bg-green-100", orange: "bg-orange-100", blue: "bg-blue-100" };
+  const bg: Record<string, string> = { green: "bg-primary/10", orange: "bg-primary/10", blue: "bg-primary/10" };
   return (
     <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-8 text-center mt-2">
       <div className={`w-16 h-16 ${bg[color] ?? "bg-gray-100"} rounded-full flex items-center justify-center mx-auto mb-4`}>
@@ -246,12 +246,12 @@ function PendingCard({ member: s, loading, onApprove, onReject }: {
   const isKurir = s.pending_role === "KURIR";
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-      <div className={`h-1.5 ${isKurir ? "bg-gradient-to-r from-blue-400 to-cyan-500" : "bg-gradient-to-r from-orange-400 to-rose-500"}`} />
+      <div className="h-1.5 bg-gradient-to-r from-primary/80 to-primary" />
       <div className="p-4">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${isKurir ? "bg-blue-100" : "bg-orange-100"}`}>
-              {isKurir ? <Truck className="h-5 w-5 text-blue-600" /> : <Store className="h-5 w-5 text-orange-600" />}
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-primary/10">
+              {isKurir ? <Truck className="h-5 w-5 text-primary" /> : <Store className="h-5 w-5 text-primary" />}
             </div>
             <div>
               <p className="font-bold text-gray-900">{s.name}</p>
@@ -261,7 +261,7 @@ function PendingCard({ member: s, loading, onApprove, onReject }: {
               </div>
             </div>
           </div>
-          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${isKurir ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"}`}>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">
             Ingin jadi {isKurir ? "Kurir" : "Penjual"}
           </span>
         </div>
@@ -306,12 +306,12 @@ function MemberCard({ member: s, accent }: { member: Member; accent: "orange" | 
   const isKurir = accent === "blue";
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-      <div className={`h-1.5 ${isKurir ? "bg-gradient-to-r from-blue-400 to-cyan-500" : "bg-gradient-to-r from-orange-400 to-rose-500"}`} />
+      <div className="h-1.5 bg-gradient-to-r from-primary/80 to-primary" />
       <div className="p-4">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${isKurir ? "bg-blue-100" : "bg-orange-100"}`}>
-              {isKurir ? <Truck className="h-5 w-5 text-blue-600" /> : <Store className="h-5 w-5 text-orange-600" />}
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-primary/10">
+              {isKurir ? <Truck className="h-5 w-5 text-primary" /> : <Store className="h-5 w-5 text-primary" />}
             </div>
             <div>
               <p className="font-bold text-gray-900">{s.name}</p>
@@ -321,7 +321,7 @@ function MemberCard({ member: s, accent }: { member: Member; accent: "orange" | 
               </div>
             </div>
           </div>
-          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${isKurir ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"}`}>
+          <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary">
             {isKurir ? "Kurir" : "Penjual"}
           </span>
         </div>

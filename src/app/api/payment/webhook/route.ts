@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (internalStatus !== "PAID") {
-      console.log(`[webhook] Status ${body.status} untuk tx ${transaction_id} — diabaikan`);
+      console.log(`[webhook] Status ${body.status} para tx ${transaction_id} — diabaikan`);
       return ok({ message: `Status ${body.status}, diabaikan` });
     }
 
@@ -62,10 +62,16 @@ export async function POST(req: NextRequest) {
       return err("Order sudah EXPIRED", 400);
     }
 
+    // 5. Backend price validation: reject if amount paid is less than order total
+    if (body.amount < order.total_harga) {
+      console.warn("[webhook] Amount tidak cukup", { paid: body.amount, required: order.total_harga, orderId: order_id });
+      return err("Jumlah pembayaran tidak sesuai", 400);
+    }
+
     const now = new Date().toISOString();
     const resolvedOrderId = order_id!;
 
-    // 5. Atomic: update order + generate earnings
+    // 6. Atomic: update order + generate earnings
     await db.transaction(async (tx) => {
       // Mark order as PAID
       await tx

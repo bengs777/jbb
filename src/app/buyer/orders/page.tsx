@@ -109,7 +109,7 @@ export default function BuyerOrdersPage() {
                       </div>
                       {order.seller_no_hp && (
                         <div className="flex items-center gap-1.5">
-                          <a href={`tel:${order.seller_no_hp}`} className="text-xs text-blue-600 font-semibold hover:underline">{order.seller_no_hp}</a>
+                          <a href={`tel:${order.seller_no_hp}`} className="text-xs text-primary font-semibold hover:underline">{order.seller_no_hp}</a>
                           {sellerWa && (
                             <a href={sellerWa} target="_blank" rel="noopener noreferrer"
                               className="text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full font-semibold hover:bg-emerald-600 transition-colors">
@@ -121,15 +121,15 @@ export default function BuyerOrdersPage() {
                     </div>
                   )}
                   {order.kurir_name && (
-                    <div className="flex items-center justify-between bg-blue-50 rounded-xl px-3 py-2">
+                    <div className="flex items-center justify-between bg-primary/10 rounded-xl px-3 py-2">
                       <div className="flex items-center gap-2">
-                        <Bike className="h-3.5 w-3.5 text-blue-400" />
-                        <span className="text-xs text-blue-500">Kurir:</span>
+                        <Bike className="h-3.5 w-3.5 text-primary" />
+                        <span className="text-xs text-primary">Kurir:</span>
                         <span className="text-xs font-semibold text-slate-700">{order.kurir_name}</span>
                       </div>
                       {order.kurir_no_hp && (
                         <div className="flex items-center gap-1.5">
-                          <a href={`tel:${order.kurir_no_hp}`} className="text-xs text-blue-600 font-semibold hover:underline">{order.kurir_no_hp}</a>
+                          <a href={`tel:${order.kurir_no_hp}`} className="text-xs text-primary font-semibold hover:underline">{order.kurir_no_hp}</a>
                           {kurirWa && (
                             <a href={kurirWa} target="_blank" rel="noopener noreferrer"
                               className="text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full font-semibold hover:bg-emerald-600 transition-colors">
