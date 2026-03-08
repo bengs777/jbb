@@ -14,9 +14,9 @@ const nextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 7,
   },
   serverExternalPackages: ["bcryptjs", "@libsql/client"],
-  experimental: {
-    optimizePackageImports: ["lucide-react", "react-hot-toast"],
-  },
+  // experimental: {
+  //   optimizePackageImports: ["lucide-react", "react-hot-toast"],
+  // },
 };
 
 export default nextConfig;
