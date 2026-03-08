@@ -26,3 +26,6 @@ coverage
 
 # Drizzle
 drizzle/
+
+.next.zip
+*.zip
