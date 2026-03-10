@@ -135,6 +135,7 @@ export function Navbar() {
                     onClick={() => signOut()}
                     className="p-2 text-white bg-black/10 hover:bg-black/20 border border-white/20 rounded-md transition-all duration-200"
                     title="Logout"
+                    suppressHydrationWarning={true}
                   >
                     <LogOut className="h-5 w-5" />
                   </button>
@@ -175,6 +176,7 @@ export function Navbar() {
                 onClick={() => setOpen((o) => !o)}
                 className="p-3 text-white bg-black/10 hover:bg-black/20 border border-white/20 rounded-md transition-all duration-200"
                 aria-label="Toggle menu"
+                suppressHydrationWarning={true}
               >
                 {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
@@ -232,6 +234,7 @@ export function Navbar() {
                       <button
                         onClick={() => { signOut(); setOpen(false); }}
                         className="flex-shrink-0 flex items-center gap-1 text-sm text-red-500 hover:bg-red-50 px-2.5 py-1.5 rounded-xl"
+                        suppressHydrationWarning={true}
                       >
                         <LogOut className="h-4 w-4" /> Keluar
                       </button>
@@ -281,6 +284,7 @@ export function Navbar() {
                   "flex flex-col items-center justify-center gap-0.5 flex-1 h-14 text-[10px] font-semibold transition-colors",
                   open ? "text-primary" : "text-slate-400 active:bg-slate-50"
                 )}
+                suppressHydrationWarning={true}
               >
                 <Menu className="h-5 w-5" />
                 <span>Lainnya</span>

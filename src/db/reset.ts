@@ -17,8 +17,9 @@ async function reset() {
     try {
       await client.execute(`DROP TABLE IF EXISTS "${t}"`);
       console.log(`  ✅ Dropped: ${t}`);
-    } catch (e: any) {
-      console.log(`  ⚠️  ${t}: ${e.message}`);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      console.log(`  ⚠️  ${t}: ${msg}`);
     }
   }
   console.log("\nDone — run npm run db:migrate to recreate");

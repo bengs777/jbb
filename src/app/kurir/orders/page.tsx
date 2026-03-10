@@ -22,10 +22,34 @@ const STATUS_LABEL: Record<string, string> = {
 
 type Tab = "available" | "mine";
 
+interface KurirOrderItem {
+  product_id: string;
+  product_name: string;
+  qty: number;
+  harga: number;
+}
+
+interface KurirOrder {
+  id: string;
+  buyer_name: string;
+  seller_name?: string;
+  seller_no_hp?: string;
+  nama_penerima?: string;
+  no_hp_penerima?: string;
+  buyer_no_hp?: string;
+  alamat_pengiriman: string;
+  total_bayar: number;
+  fee_kurir: number;
+  status_pembayaran: string;
+  status_pesanan: string;
+  created_at: string;
+  items?: KurirOrderItem[];
+}
+
 export default function KurirOrdersPage() {
   const [tab, setTab] = useState<Tab>("available");
-  const [available, setAvailable] = useState<any[]>([]);
-  const [myOrders, setMyOrders] = useState<any[]>([]);
+  const [available, setAvailable] = useState<KurirOrder[]>([]);
+  const [myOrders, setMyOrders] = useState<KurirOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState<string | null>(null);
 
@@ -74,7 +98,7 @@ export default function KurirOrdersPage() {
     setUpdating(null);
   };
 
-  const OrderCard = ({ o, mode }: { o: any; mode: "available" | "mine" }) => {
+  const OrderCard = ({ o, mode }: { o: KurirOrder; mode: "available" | "mine" }) => {
     const namaPenerima = o.nama_penerima || o.buyer_name || "—";
     const noHp = o.no_hp_penerima || o.buyer_no_hp || null;
     const waHref = noHp
@@ -170,7 +194,7 @@ export default function KurirOrdersPage() {
 
       {/* Items */}
       <div className="text-sm text-slate-600 mb-3">
-        {(o.items ?? []).map((item: any) => (
+        {(o.items ?? []).map((item) => (
           <div key={item.product_id} className="flex justify-between py-0.5">
             <span>{item.product_name} x{item.qty}</span>
             <span>{formatRupiah(item.qty * item.harga)}</span>

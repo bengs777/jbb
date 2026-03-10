@@ -64,8 +64,9 @@ export async function POST(
       .where(eq(orders.id, orderId));
 
     return ok({ payment_url: mayar.paymentUrl });
-  } catch (e: any) {
+  } catch (e) {
     console.error("[regenerate payment]", e);
-    return err("Gagal membuat link pembayaran: " + e.message, 500);
+    const msg = e instanceof Error ? e.message : "Unknown error";
+    return err("Gagal membuat link pembayaran: " + msg, 500);
   }
 }

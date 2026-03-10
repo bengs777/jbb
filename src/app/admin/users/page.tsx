@@ -9,8 +9,19 @@ import { formatDate } from "@/lib/utils";
 import toast from "react-hot-toast";
 import { UserCheck, UserX } from "lucide-react";
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  is_active: boolean;
+  no_hp?: string;
+  created_at: string;
+  pending_role?: string;
+}
+
 export default function AdminUsersPage() {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState<string | null>(null);
 

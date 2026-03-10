@@ -11,7 +11,8 @@ export async function GET(req: NextRequest) {
   try {
     const profiles = await getProfiles();
     return NextResponse.json({ success: true, data: profiles });
-  } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message ?? "Gagal koneksi ke MikroTik" }, { status: 502 });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Gagal koneksi ke MikroTik";
+    return NextResponse.json({ success: false, error: msg }, { status: 502 });
   }
 }

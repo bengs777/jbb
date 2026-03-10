@@ -33,6 +33,28 @@ const CATEGORY_META: Record<string, {
   bpjs:    { label: "BPJS",         inputLabel: "No. Virtual Account",inputPlaceholder: "Nomor VA BPJS",         icon: ShieldCheck,gradient: "from-red-500 to-rose-700" },
 };
 
+interface TopupProduct {
+  id: string;
+  code: string;
+  name: string;
+  operator: string;
+  category: string;
+  price: number;
+  sell_price?: number;
+  buy_price?: number;
+  status: string;
+  description?: string;
+}
+
+interface OrderResult {
+  invoice_id?: string;
+  invoiceId?: string;
+  status?: string;
+  message?: string;
+  payment_url?: string;
+  sn?: string;
+}
+
 export default function CategoryPage() {
   const params = useParams();
   const router = useRouter();
@@ -41,15 +63,15 @@ export default function CategoryPage() {
   const Icon = meta.icon;
 
   const [balance, setBalance]           = useState<number | null>(null);
-  const [products, setProducts]         = useState<any[]>([]);
+  const [products, setProducts]         = useState<TopupProduct[]>([]);
   const [operators, setOperators]       = useState<string[]>([]);
   const [selectedOperator, setSelectedOperator] = useState<string | null>(null);
   const [targetNumber, setTargetNumber] = useState("");
-  const [selectedProduct, setSelectedProduct]   = useState<any | null>(null);
+  const [selectedProduct, setSelectedProduct]   = useState<TopupProduct | null>(null);
   const [loading, setLoading]           = useState(true);
   const [ordering, setOrdering]         = useState(false);
   const [error, setError]               = useState("");
-  const [result, setResult]             = useState<any | null>(null);
+  const [result, setResult]             = useState<OrderResult | null>(null);
   const [payMethod, setPayMethod]       = useState<"wallet" | "direct">("direct");
 
   const fetchData = useCallback(async () => {
@@ -61,9 +83,9 @@ export default function CategoryPage() {
       ]);
       const [bJson, pJson] = await Promise.all([bRes.json(), pRes.json()]);
       if (bJson.success) setBalance(bJson.data.balance);
-      const prods: any[] = pJson.data ?? [];
+      const prods: TopupProduct[] = pJson.data ?? [];
       setProducts(prods);
-      const ops = Array.from(new Set(prods.map((p: any) => p.operator))).filter(Boolean) as string[];
+      const ops = Array.from(new Set(prods.map((p) => p.operator))).filter(Boolean) as string[];
       setOperators(ops);
       if (ops.length === 1) setSelectedOperator(ops[0]);
     } catch {}

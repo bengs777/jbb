@@ -22,8 +22,23 @@ const STATUS_LABELS: Record<string, string> = {
   REFUNDED: "Dikembalikan",
 };
 
+interface TopupTransaction {
+  id: string;
+  product_name?: string;
+  product_code?: string;
+  target_number: string;
+  sell_price?: number;
+  amount?: number;
+  status: string;
+  created_at: string;
+  ref_id?: string;
+  portalpulsa_sn?: string;
+  price?: number;
+  failure_reason?: string;
+}
+
 export default function TopupHistoryPage() {
-  const [transactions, setTransactions] = useState<any[]>([]);
+  const [transactions, setTransactions] = useState<TopupTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -99,7 +114,7 @@ export default function TopupHistoryPage() {
                   </div>
                   <div className="text-right shrink-0">
                     <p className="text-sm font-bold text-gray-800">
-                      {formatRupiah(trx.price)}
+                      {formatRupiah(trx.price ?? 0)}
                     </p>
                     <span
                       className={`inline-block text-xs font-semibold px-2 py-0.5 rounded-full mt-1 ${

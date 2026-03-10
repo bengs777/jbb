@@ -103,19 +103,18 @@ export async function createQRIS(params: QRISCreateParams): Promise<QRISCreateRe
   return createQRISReal(params);
 }
 
-export function verifyWebhookSignature(
+export async function verifyWebhookSignature(
   payload: Omit<QRISWebhookPayload, "signature">,
   receivedSignature: string
-): boolean {
+): Promise<boolean> {
   if (USE_MOCK) return true;
 
   const webhookSecret = process.env.QRIS_WEBHOOK_SECRET;
   if (!webhookSecret) return false;
 
   // Pakasir signature = HMAC-SHA256 of JSON payload
-  const crypto = require("crypto");
-  const expected = crypto
-    .createHmac("sha256", webhookSecret)
+  const { createHmac } = await import("crypto");
+  const expected = createHmac("sha256", webhookSecret)
     .update(JSON.stringify(payload))
     .digest("hex");
 

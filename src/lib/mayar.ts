@@ -90,7 +90,7 @@ function pickNumber(obj: AnyRecord, keys: string[]): number | undefined {
 export function normalizeMayarWebhookPayload(raw: unknown): MayarWebhookPayload {
   const root = asRecord(raw);
   const nested = asRecord(root.data);
-  const source: AnyRecord = Object.keys(nested).length > 0 ? { ...root, ...nested } : root;
+  const source: Record<string, unknown> = Object.keys(nested).length > 0 ? { ...root, ...nested } : root;
 
   const id =
     pickString(source, ["id", "transaction_id", "transactionId", "payment_id", "paymentId"]) ??

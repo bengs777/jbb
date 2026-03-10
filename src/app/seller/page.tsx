@@ -10,9 +10,18 @@ import { formatRupiah, formatDate } from "@/lib/utils";
 import toast from "react-hot-toast";
 import { Package, ShoppingBag, TrendingUp, ArrowRight, Plus, Users, Wallet } from "lucide-react";
 
+interface SellerDashboardOrder {
+  id: string;
+  buyer_name: string;
+  total_bayar: number;
+  status_pembayaran: string;
+  status_pesanan: string;
+  created_at: string;
+}
+
 export default function SellerDashboard() {
   const [stats, setStats] = useState({ products: 0, orders: 0, earnings: 0 });
-  const [recentOrders, setRecentOrders] = useState<any[]>([]);
+  const [recentOrders, setRecentOrders] = useState<SellerDashboardOrder[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

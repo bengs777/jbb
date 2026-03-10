@@ -22,11 +22,12 @@ async function migrate() {
     for (const stmt of statements) {
       try {
         await client.execute(stmt);
-      } catch (e: any) {
-        if (e.message?.includes("already exists")) {
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : String(e);
+        if (msg.includes("already exists")) {
           console.log(`  ⏭️  Skipped (already exists)`);
         } else {
-          console.error(`  ❌ ${e.message}`);
+          console.error(`  ❌ ${msg}`);
         }
       }
     }

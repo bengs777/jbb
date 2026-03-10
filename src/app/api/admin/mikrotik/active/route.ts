@@ -11,8 +11,9 @@ export async function GET(req: NextRequest) {
   try {
     const users = await getActiveUsers();
     return NextResponse.json({ success: true, data: users });
-  } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message ?? "Gagal koneksi ke MikroTik" }, { status: 502 });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Gagal koneksi ke MikroTik";
+    return NextResponse.json({ success: false, error: msg }, { status: 502 });
   }
 }
 
@@ -28,7 +29,8 @@ export async function DELETE(req: NextRequest) {
   try {
     await kickActiveUser(id);
     return NextResponse.json({ success: true });
-  } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message ?? "Gagal kick user" }, { status: 502 });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Gagal kick user";
+    return NextResponse.json({ success: false, error: msg }, { status: 502 });
   }
 }

@@ -55,7 +55,7 @@ async function withConnection<T>(fn: (api: RouterOSAPI) => Promise<T>): Promise<
 export async function getProfiles(): Promise<MikrotikProfile[]> {
   return withConnection(async (api) => {
     const raw = await api.write("/ip/hotspot/user/profile/print");
-    return (raw as any[]).map((p) => ({
+    return (raw as Record<string, string>[]).map((p) => ({
       name: p.name as string,
       rateLimit: p["rate-limit"],
       sharedUsers: p["shared-users"],
@@ -105,7 +105,7 @@ export async function removeHotspotUser(name: string): Promise<void> {
   return withConnection(async (api) => {
     const found = await api.write("/ip/hotspot/user/print", [`?name=${name}`]);
     if (found.length === 0) return;
-    const id = (found[0] as any)[".id"] as string;
+    const id = (found[0] as Record<string, string>)[".id"];
     await api.write("/ip/hotspot/user/remove", [`=.id=${id}`]);
   });
 }

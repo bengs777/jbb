@@ -30,10 +30,21 @@ const STATUS_BADGE: Record<string, { label: string; cls: string }> = {
   REFUNDED:        { label: "Dikembalikan",    cls: "bg-gray-100 text-gray-600" },
 };
 
+interface RecentTransaction {
+  id: string;
+  product_name?: string;
+  product_code?: string;
+  target_number: string;
+  sell_price?: number;
+  price?: number;
+  status: string;
+  created_at: string;
+}
+
 export default function PPOBDashboard() {
   const { data: session, isPending } = useSession();
   const [balance, setBalance] = useState<{ balance: number; hold: number } | null>(null);
-  const [recentTrx, setRecentTrx] = useState<any[]>([]);
+  const [recentTrx, setRecentTrx] = useState<RecentTransaction[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchAll = useCallback(async () => {
@@ -207,7 +218,7 @@ export default function PPOBDashboard() {
                     </div>
                     <div className="text-right shrink-0">
                       <p className="text-sm font-bold text-gray-800">
-                        {formatRupiah(trx.price)}
+                        {formatRupiah(trx.price ?? 0)}
                       </p>
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${badge.cls}`}>
                         {badge.label}

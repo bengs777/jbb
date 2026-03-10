@@ -2,6 +2,31 @@
 
 import { useEffect, useState } from "react";
 import { Navbar } from "@/components/layout/navbar";
+
+interface OrderItem {
+  product_id: string;
+  product_name: string;
+  qty: number;
+  subtotal: number;
+}
+
+interface SellerOrder {
+  id: string;
+  buyer_name: string;
+  kurir_id?: string;
+  kurir_name?: string;
+  alamat_pengiriman?: string;
+  status_pembayaran: string;
+  status_pesanan: string;
+  total_bayar: number;
+  created_at: string;
+  items?: OrderItem[];
+}
+
+interface KurirItem {
+  id: string;
+  name: string;
+}
 import { Button } from "@/components/ui/button";
 import { PageLoader, EmptyState } from "@/components/ui/spinner";
 import { PaymentBadge, OrderStatusBadge } from "@/components/ui/badge";
@@ -10,8 +35,8 @@ import toast from "react-hot-toast";
 import { Truck } from "lucide-react";
 
 export default function SellerOrdersPage() {
-  const [orders, setOrders] = useState<any[]>([]);
-  const [kurirList, setKurirList] = useState<any[]>([]);
+  const [orders, setOrders] = useState<SellerOrder[]>([]);
+  const [kurirList, setKurirList] = useState<KurirItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [assigning, setAssigning] = useState<string | null>(null);
   const [selected, setSelected] = useState<Record<string, string>>({});
@@ -67,7 +92,7 @@ export default function SellerOrdersPage() {
 
                 {/* Items */}
                 <div className="border-t border-gray-50 pt-2 mt-2">
-                  {(o.items ?? []).map((item: any) => (
+                  {(o.items ?? []).map((item: OrderItem) => (
                     <div key={item.product_id} className="flex justify-between text-sm text-gray-600 py-0.5">
                       <span>{item.product_name} x{item.qty}</span>
                       <span>{formatRupiah(item.subtotal)}</span>
@@ -85,7 +110,7 @@ export default function SellerOrdersPage() {
                         className="text-xs border border-gray-200 rounded-lg px-2 py-1"
                       >
                         <option value="">Pilih Kurir</option>
-                        {kurirList.map((k: any) => (
+                        {kurirList.map((k: KurirItem) => (
                           <option key={k.id} value={k.id}>{k.name}</option>
                         ))}
                       </select>

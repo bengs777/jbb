@@ -106,29 +106,29 @@ export default function KatalogPage() {
 
       {/* Header */}
       <div className="bg-white border-b border-slate-100">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <h1 className="text-2xl font-black text-slate-800 mb-4 tracking-tight">Katalog Produk</h1>
+        <div className="max-w-6xl mx-auto px-4 py-4 sm:py-6">
+          <h1 className="text-lg sm:text-2xl font-black text-slate-800 mb-3 sm:mb-4 tracking-tight">Katalog Produk</h1>
 
           {/* Search */}
-          <div className="relative mb-4">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <div className="relative mb-3 sm:mb-4">
+            <Search className="absolute left-3 sm:left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <input
               type="text"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Cari produk..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all"
+              placeholder="Cari produk…"
+              className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl border border-slate-200 bg-slate-50 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all"
             />
           </div>
 
           {/* Category filter */}
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+          <div className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-2 scrollbar-none -mx-4 sm:mx-0 px-4 sm:px-0">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 onClick={() => { setKategori(cat); setPage(1); }}
                 className={cn(
-                  "flex-shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-150",
+                  "flex-shrink-0 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-150",
                   kategori === cat
                     ? "bg-primary text-white shadow-sm shadow-primary/20"
                     : "bg-white text-slate-600 border border-slate-200 hover:border-primary/30 hover:text-primary"
@@ -142,7 +142,7 @@ export default function KatalogPage() {
       </div>
 
       {/* Products Grid */}
-      <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="max-w-6xl mx-auto px-4 py-4 sm:py-6">
         {loading ? (
           <PageLoader />
         ) : products.length === 0 ? (
@@ -153,13 +153,13 @@ export default function KatalogPage() {
           />
         ) : (
           <>  
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-sm text-slate-500">
-                Menampilkan {products.length} dari {pagination.total} produk
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <p className="text-xs sm:text-sm text-slate-500">
+                {products.length} dari {pagination.total} produk
               </p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
               {products.map((p) => (
                 <ProductCard
                   key={p.id}
@@ -171,21 +171,21 @@ export default function KatalogPage() {
 
             {/* Pagination */}
             {pagination.totalPages > 1 && (
-              <div className="flex items-center justify-center gap-3 mt-8">
+              <div className="flex items-center justify-center gap-2 sm:gap-3 mt-6 sm:mt-8">
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 transition-colors min-h-[32px] sm:min-h-[auto] flex items-center justify-center"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </button>
-                <span className="text-sm text-slate-600 font-medium">
-                  Halaman {pagination.page} / {pagination.totalPages}
+                <span className="text-xs sm:text-sm text-slate-600 font-medium">
+                  {pagination.page} / {pagination.totalPages}
                 </span>
                 <button
                   onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
                   disabled={page === pagination.totalPages}
-                  className="p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl border border-slate-200 bg-white hover:bg-slate-50 disabled:opacity-40 transition-colors min-h-[32px] sm:min-h-[auto] flex items-center justify-center"
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>

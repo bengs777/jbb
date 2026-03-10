@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
+export const dynamic = 'force-dynamic';
 import { Navbar } from "@/components/layout/navbar";
 import { PageLoader, EmptyState } from "@/components/ui/spinner";
 import { ClassBadge } from "@/components/ui/badge";

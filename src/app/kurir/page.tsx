@@ -8,9 +8,18 @@ import { OrderStatusBadge } from "@/components/ui/badge";
 import { formatRupiah, formatDate } from "@/lib/utils";
 import { Package, TrendingUp, ArrowRight, Wallet } from "lucide-react";
 
+interface KurirDashboardOrder {
+  id: string;
+  buyer_name: string;
+  alamat_pengiriman: string;
+  total_bayar: number;
+  status_pesanan: string;
+  created_at: string;
+}
+
 export default function KurirDashboard() {
   const [stats, setStats] = useState({ orders: 0, earnings: 0 });
-  const [recentOrders, setRecentOrders] = useState<any[]>([]);
+  const [recentOrders, setRecentOrders] = useState<KurirDashboardOrder[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
   const rows = await db
     .select()
     .from(mikrotikVouchers)
-    .where(status ? eq(mikrotikVouchers.status, status as any) : undefined)
+    .where(status ? eq(mikrotikVouchers.status, status as "unused" | "used" | "expired") : undefined)
     .orderBy(desc(mikrotikVouchers.created_at))
     .limit(200);
 
@@ -57,9 +57,10 @@ export async function POST(req: NextRequest) {
 
     try {
       await addHotspotUser(code, password, profile, comment);
-    } catch (err: any) {
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Unknown error";
       return NextResponse.json(
-        { success: false, error: `Gagal tambah user ke MikroTik: ${err.message}` },
+        { success: false, error: `Gagal tambah user ke MikroTik: ${msg}` },
         { status: 502 }
       );
     }

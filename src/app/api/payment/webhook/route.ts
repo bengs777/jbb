@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
     // 2. Resolve order — prefer referenceId, fallback to qris_id lookup
     let order_id: string | undefined = body.referenceId || undefined;
-    let order: any = undefined;
+    let order: typeof orders.$inferSelect | undefined = undefined;
 
     if (order_id) {
       const rows = await db.select().from(orders).where(eq(orders.id, order_id));
@@ -63,8 +63,8 @@ export async function POST(req: NextRequest) {
     }
 
     // 5. Backend price validation: reject if amount paid is less than order total
-    if (body.amount < order.total_harga) {
-      console.warn("[webhook] Amount tidak cukup", { paid: body.amount, required: order.total_harga, orderId: order_id });
+    if (body.amount < order.total_bayar) {
+      console.warn("[webhook] Amount tidak cukup", { paid: body.amount, required: order.total_bayar, orderId: order_id });
       return err("Jumlah pembayaran tidak sesuai", 400);
     }
 

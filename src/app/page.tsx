@@ -61,6 +61,7 @@ const UMKM_STORIES = [
 
 export default function HomePage() {
   const { data: session } = useSession();
+  const role = session?.user?.role as string;
   const router = useRouter();
   const [viralProducts, setViralProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
@@ -111,7 +112,7 @@ export default function HomePage() {
         photo-1537953773345 = Tegallalang Bali rice terraces (representasi pesawahan Indonesia)
       */}
       <section
-        className="relative overflow-hidden min-h-[580px] flex items-center"
+        className="relative overflow-hidden min-h-[420px] sm:min-h-[520px] md:min-h-[580px] flex items-center"
         style={{
           backgroundImage: "url(https://images.unsplash.com/photo-1537953773345-d172ccf13cf4?w=1400&q=85)",
           backgroundSize: "cover",
@@ -121,54 +122,60 @@ export default function HomePage() {
         {/* Overlay: kiri gelap agar teks terbaca, kanan transparan agar foto terlihat */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/15" />
 
-        <div className="relative max-w-6xl mx-auto px-4 py-16 md:py-24 w-full">
+        <div className="relative max-w-6xl mx-auto px-4 py-10 sm:py-16 md:py-24 w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
 
             {/* ── Kiri: Teks ─────────────────────────────────────── */}
             <div>
               {/* Pill label */}
-              <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/30 text-white text-sm px-4 py-2 rounded-full font-medium mb-6">
+              <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/30 text-white text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-medium mb-4 sm:mb-6">
                 <span>🌾</span>
-                <MapPin className="h-3.5 w-3.5 opacity-75" />
-                <span>Pasar Digital · Desa Buntu</span>
+                <MapPin className="h-3 sm:h-3.5 w-3 sm:w-3.5 opacity-75" />
+                <span className="hidden sm:inline">Pasar Digital · Desa Buntu</span>
+                <span className="sm:hidden">Pasar Digital Buntu</span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl xl:text-6xl font-black text-white leading-[1.1] tracking-tight mb-5">
+              <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight mb-3 sm:mb-5">
                 Dari Kebun Warga,<br />
                 <span className="relative inline-block mt-1">
                   <span className="relative z-10 text-white">Langsung ke Dapur.</span>
-                  <span className="absolute inset-x-0 bottom-1 h-3 bg-primary/70 -z-0 rounded" />
+                  <span className="absolute inset-x-0 bottom-0.5 sm:bottom-1 h-2 sm:h-3 bg-primary/70 -z-0 rounded" />
                 </span>
               </h1>
 
-              <p className="text-white/85 text-base md:text-lg mb-8 leading-relaxed max-w-md">
-                Sayuran, olahan, dan produk UMKM dari tangan warga Buntu sendiri.
-                Harga jujur, diantar kurir orang kampung, setiap pembelian menghidupi desa.
+              <p className="text-white/85 text-xs sm:text-base md:text-lg mb-4 sm:mb-8 leading-relaxed max-w-md">
+                Sayuran, olahan, dan produk UMKM dari warga Buntu sendiri. Harga jujur, diantar kurir orang kampung.
               </p>
 
               {/* Search */}
-              <form onSubmit={handleSearch} className="flex items-center bg-white rounded-xl shadow-xl mb-8 max-w-md overflow-hidden">
-                <Search className="h-5 w-5 text-stone-400 ml-4 flex-shrink-0" />
+              <form onSubmit={handleSearch} className="flex items-center bg-white rounded-lg sm:rounded-xl shadow-lg mb-4 sm:mb-8 max-w-md overflow-hidden w-full sm:w-auto" suppressHydrationWarning={true}>
+                <Search className="h-4 sm:h-5 w-4 sm:w-5 text-stone-400 ml-3 sm:ml-4 flex-shrink-0" />
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Cari sayur, olahan, jajanan…"
-                  className="flex-1 px-3 py-3.5 text-sm text-stone-800 bg-transparent focus:outline-none placeholder:text-stone-400"
+                  placeholder="Cari produk…"
+                  className="flex-1 px-2 sm:px-3 py-2.5 sm:py-3.5 text-xs sm:text-sm text-stone-800 bg-transparent focus:outline-none placeholder:text-stone-400"
+                  suppressHydrationWarning={true}
                 />
-                <button type="submit" className="bg-primary text-white px-5 py-3.5 text-sm font-bold hover:bg-primary/90 transition-colors">
+                <button type="submit" className="bg-primary text-white px-4 sm:px-5 py-2.5 sm:py-3.5 text-xs sm:text-sm font-bold hover:bg-primary/90 transition-colors flex-shrink-0" suppressHydrationWarning={true}>
                   Cari
                 </button>
               </form>
 
               {/* CTA buttons */}
-              <div className="flex flex-wrap gap-3">
-                <Link href="/katalog" className="inline-flex items-center gap-2.5 bg-primary text-white font-bold px-7 py-3.5 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/30 text-sm">
-                  Belanja Sekarang <ArrowRight className="h-4 w-4" />
+              <div className="flex flex-col xs:flex-row gap-3 w-full xs:w-auto">
+                <Link href="/katalog" className="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold px-6 sm:px-7 py-3 sm:py-3.5 rounded-lg sm:rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/30 text-xs sm:text-sm">
+                  Belanja <ArrowRight className="h-3.5 sm:h-4 w-3.5 sm:w-4" />
                 </Link>
-                <Link href="/register" className="inline-flex items-center gap-2.5 bg-white/15 backdrop-blur-sm border border-white/40 text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-white/25 transition-colors text-sm">
-                  🏪 Buka Toko Gratis
+                <Link href="/register" className="inline-flex items-center justify-center gap-2 bg-white/15 backdrop-blur-sm border border-white/40 text-white font-semibold px-6 sm:px-7 py-3 sm:py-3.5 rounded-lg sm:rounded-xl hover:bg-white/25 transition-colors text-xs sm:text-sm">
+                  🏪 Buka Toko
                 </Link>
+                {role === "ADMIN" && (
+                  <Link href="/admin" className="inline-flex items-center justify-center gap-2 bg-amber-500 text-white font-semibold px-6 sm:px-7 py-3 sm:py-3.5 rounded-lg sm:rounded-xl hover:bg-amber-600 transition-colors text-xs sm:text-sm">
+                    📊 Dashboard Admin
+                  </Link>
+                )}
               </div>
             </div>
 
@@ -205,6 +212,7 @@ export default function HomePage() {
                       onClick={() => setActiveStory(i)}
                       className={`h-2 rounded-full transition-all duration-300 ${i === activeStory ? "w-7 bg-amber-300" : "w-2 bg-white/50 hover:bg-white/80"}`}
                       aria-label={`Tampilkan ${s.title}`}
+                      suppressHydrationWarning={true}
                     />
                   ))}
                 </div>
@@ -222,6 +230,7 @@ export default function HomePage() {
                         ? "bg-white text-primary border-white/80 shadow-md"
                         : "bg-white/10 text-white/80 border-white/20 hover:bg-white/20"
                     }`}
+                    suppressHydrationWarning={true}
                   >
                     <p className="text-[10px] font-semibold uppercase tracking-wider mb-0.5 opacity-70">{s.subtitle}</p>
                     <p className="font-bold text-xs leading-tight">{s.title}</p>
@@ -239,10 +248,10 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-stone-100">
             {STATS.map((s) => (
-              <div key={s.label} className="flex flex-col items-center py-8 gap-1 text-center">
-                <span className="text-2xl mb-1">{s.emoji}</span>
-                <span className="text-3xl font-black text-primary tracking-tight">{s.value}</span>
-                <span className="text-xs text-stone-500 font-medium">{s.label}</span>
+              <div key={s.label} className="flex flex-col items-center py-4 sm:py-8 gap-0.5 sm:gap-1 text-center">
+                <span className="text-lg sm:text-2xl mb-0.5 sm:mb-1">{s.emoji}</span>
+                <span className="text-xl sm:text-3xl font-black text-primary tracking-tight">{s.value}</span>
+                <span className="text-[10px] sm:text-xs text-stone-500 font-medium">{s.label}</span>
               </div>
             ))}
           </div>
@@ -250,28 +259,29 @@ export default function HomePage() {
       </section>
 
       {/* ── Kategori ─────────────────────────────────────────────── */}
-      <section className="py-14 bg-stone-50">
+      <section className="py-8 sm:py-10 md:py-14 bg-stone-50">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-end justify-between mb-8">
+          <div className="flex items-end justify-between mb-6 sm:mb-8">
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-primary mb-1">Mau Beli Apa?</p>
-              <h2 className="text-2xl font-black text-stone-800 tracking-tight">Pilih Kategori</h2>
+              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-primary mb-1">Mau Beli Apa?</p>
+              <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-stone-800 tracking-tight">Pilih Kategori</h2>
             </div>
-            <Link href="/katalog" className="text-sm text-primary hover:text-primary/80 font-semibold flex items-center gap-1">
-              Semua <ChevronRight className="h-4 w-4" />
+            <Link href="/katalog" className="text-xs sm:text-sm text-primary hover:text-primary/80 font-semibold flex items-center gap-1">
+              Semua <ChevronRight className="h-3.5 sm:h-4 w-3.5 sm:w-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-4 sm:grid-cols-8 gap-2 md:gap-4">
+          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-8 gap-1.5 sm:gap-2 md:gap-4">
             {CATEGORIES.map((c) => (
               <button
                 key={c.key}
                 onClick={() => handleCategory(c.key)}
-                className="group flex flex-col items-center gap-2.5 p-3 rounded-2xl hover:bg-white hover:shadow-md transition-all duration-200"
+                className="group flex flex-col items-center gap-1.5 sm:gap-2.5 p-1.5 sm:p-3 rounded-xl sm:rounded-2xl hover:bg-white hover:shadow-md transition-all duration-200"
+                suppressHydrationWarning={true}
               >
-                <div className="w-14 h-14 bg-white group-hover:bg-primary rounded-2xl flex items-center justify-center text-2xl shadow-sm group-hover:shadow-lg group-hover:shadow-primary/25 transition-all duration-200">
+                <div className="w-10 sm:w-14 h-10 sm:h-14 bg-white group-hover:bg-primary rounded-lg sm:rounded-2xl flex items-center justify-center text-lg sm:text-2xl shadow-sm group-hover:shadow-lg group-hover:shadow-primary/25 transition-all duration-200">
                   {c.emoji}
                 </div>
-                <span className="text-xs font-semibold text-stone-600 group-hover:text-primary transition-colors">{c.label}</span>
+                <span className="text-[10px] sm:text-xs font-semibold text-stone-600 group-hover:text-primary transition-colors text-center leading-tight">{c.label}</span>
               </button>
             ))}
           </div>
@@ -279,9 +289,9 @@ export default function HomePage() {
       </section>
 
       {/* ── Tiga Keunggulan ──────────────────────────────────────── */}
-      <section className="py-12 bg-white border-y border-stone-100">
+      <section className="py-8 sm:py-12 bg-white border-y border-stone-100">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             {[
               {
                 icon: <Leaf className="h-5 w-5 text-green-600" />,
@@ -305,13 +315,13 @@ export default function HomePage() {
                 desc: "Scan, bayar, selesai. Tanpa tunai, tanpa ribet, 100% aman.",
               },
             ].map((f) => (
-              <div key={f.title} className="flex items-start gap-4 p-5 rounded-2xl border border-stone-100 hover:shadow-md transition-shadow duration-200 group">
-                <div className={`w-11 h-11 ${f.bg} rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform`}>
+              <div key={f.title} className="flex items-start gap-3 sm:gap-4 p-3 sm:p-5 rounded-lg sm:rounded-2xl border border-stone-100 hover:shadow-md transition-shadow duration-200 group">
+                <div className={`w-9 sm:w-11 h-9 sm:h-11 ${f.bg} rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform`}>
                   {f.icon}
                 </div>
                 <div>
-                  <h3 className={`font-bold text-sm mb-1 ${f.accent}`}>{f.title}</h3>
-                  <p className="text-stone-500 text-xs leading-relaxed">{f.desc}</p>
+                  <h3 className={`font-bold text-xs sm:text-sm mb-0.5 sm:mb-1 ${f.accent}`}>{f.title}</h3>
+                  <p className="text-stone-500 text-[10px] sm:text-xs leading-relaxed">{f.desc}</p>
                 </div>
               </div>
             ))}
@@ -321,18 +331,18 @@ export default function HomePage() {
 
       {/* ── Produk Terlaris ──────────────────────────────────────── */}
       {viralProducts.length > 0 && (
-        <section className="py-14 bg-amber-50/40">
+        <section className="py-8 sm:py-10 md:py-14 bg-amber-50/40">
           <div className="max-w-6xl mx-auto px-4">
-            <div className="flex items-end justify-between mb-8">
+            <div className="flex items-end justify-between mb-6 sm:mb-8">
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-primary mb-1">Paling Dicari Warga</p>
-                <h2 className="text-2xl font-black text-stone-800 tracking-tight">🔥 Produk Terlaris</h2>
+                <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-primary mb-1">Paling Dicari Warga</p>
+                <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-stone-800 tracking-tight">🔥 Produk Terlaris</h2>
               </div>
-              <Link href="/katalog" className="btn-primary flex items-center gap-2 text-sm">
-                Lihat Semua <ChevronRight className="h-4 w-4" />
+              <Link href="/katalog" className="btn-primary flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+                Lihat Semua <ChevronRight className="h-3.5 sm:h-4 w-3.5 sm:w-4" />
               </Link>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
               {viralProducts.map((p) => (
                 <div key={p.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-200 group border border-stone-100">
                   <Link href={`/katalog/${p.id}`} className="block">
@@ -362,6 +372,7 @@ export default function HomePage() {
                     <button
                       onClick={() => handleAddToCart(p.id)}
                       className="w-full bg-primary text-white text-xs font-bold py-2.5 rounded-xl hover:bg-primary/90 active:scale-95 transition-all flex items-center justify-center gap-1.5"
+                      suppressHydrationWarning={true}
                     >
                       <ShoppingCart className="h-3.5 w-3.5" /> Tambah ke Keranjang
                     </button>
@@ -380,18 +391,18 @@ export default function HomePage() {
         Banner 2: Masakan Sunda — nasi + lauk
         photo-1565299585323 = rice plate with toppings, nuansa nasi timbel
       */}
-      <section className="py-14 bg-stone-50">
+      <section className="py-8 sm:py-10 md:py-14 bg-stone-50">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-end justify-between mb-6">
+          <div className="flex items-end justify-between mb-4 sm:mb-6">
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-primary mb-1">Unggulan Desa</p>
-              <h2 className="text-2xl font-black text-stone-800 tracking-tight">Pilihan Istimewa</h2>
+              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-primary mb-1">Unggulan Desa</p>
+              <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-stone-800 tracking-tight">Pilihan Istimewa</h2>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-5">
             {/* Banner 1 — Petani & Hasil Panen */}
             <div
-              className="relative rounded-2xl overflow-hidden h-56"
+              className="relative rounded-lg sm:rounded-2xl overflow-hidden h-36 sm:h-48 md:h-56"
               style={{
                 backgroundImage: "url(https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80)",
                 backgroundSize: "cover",
@@ -399,28 +410,28 @@ export default function HomePage() {
               }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/35" />
-              <div className="relative p-7 h-full flex flex-col justify-between">
+              <div className="relative p-4 sm:p-7 h-full flex flex-col justify-between">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-widest text-amber-300 block mb-2">
+                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-amber-300 block mb-1 sm:mb-2">
                     Langsung dari Petani
                   </span>
-                  <h3 className="text-white font-black text-2xl leading-tight">
+                  <h3 className="text-white font-black text-sm sm:text-2xl leading-tight">
                     Panen Langsung Dijual,<br />
-                    <span className="text-amber-200">Harga Petani, Bukan Tengkulak</span>
+                    <span className="text-amber-200">Harga Petani</span>
                   </h3>
                 </div>
                 <Link
                   href="/katalog?kategori=Lainnya"
-                  className="inline-flex items-center gap-2 bg-white text-primary font-bold px-5 py-2.5 rounded-xl w-fit text-sm hover:bg-stone-50 transition-colors shadow-md"
+                  className="inline-flex items-center gap-1 sm:gap-2 bg-white text-primary font-bold px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl w-fit text-xs sm:text-sm hover:bg-stone-50 transition-colors shadow-md"
                 >
-                  Lihat Produk <ArrowRight className="h-4 w-4" />
+                  Lihat <ArrowRight className="h-3 sm:h-4 w-3 sm:w-4" />
                 </Link>
               </div>
             </div>
 
             {/* Banner 2 — Pedagang Asongan / Jajanan Kaki Lima */}
             <div
-              className="relative rounded-2xl overflow-hidden h-56"
+              className="relative rounded-lg sm:rounded-2xl overflow-hidden h-36 sm:h-48 md:h-56"
               style={{
                 backgroundImage: "url(https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80)",
                 backgroundSize: "cover",
@@ -428,21 +439,21 @@ export default function HomePage() {
               }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-amber-900/95 via-amber-800/80 to-amber-700/35" />
-              <div className="relative p-7 h-full flex flex-col justify-between">
+              <div className="relative p-4 sm:p-7 h-full flex flex-col justify-between">
                 <div>
-                  <span className="text-xs font-bold uppercase tracking-widest text-amber-300 block mb-2">
+                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-amber-300 block mb-1 sm:mb-2">
                     Pedagang Asongan Buntu
                   </span>
-                  <h3 className="text-white font-black text-2xl leading-tight">
+                  <h3 className="text-white font-black text-sm sm:text-2xl leading-tight">
                     Jajanan Pinggir Jalan,<br />
-                    <span className="text-amber-200">Kini Bisa Dipesan Online</span>
+                    <span className="text-amber-200">Pesan Online</span>
                   </h3>
                 </div>
                 <Link
                   href="/katalog?kategori=Olahan"
-                  className="inline-flex items-center gap-2 bg-white text-amber-800 font-bold px-5 py-2.5 rounded-xl w-fit text-sm hover:bg-stone-50 transition-colors shadow-md"
+                  className="inline-flex items-center gap-1 sm:gap-2 bg-white text-amber-800 font-bold px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl w-fit text-xs sm:text-sm hover:bg-stone-50 transition-colors shadow-md"
                 >
-                  Pesan Sekarang <ArrowRight className="h-4 w-4" />
+                  Pesan <ArrowRight className="h-3 sm:h-4 w-3 sm:w-4" />
                 </Link>
               </div>
             </div>
@@ -451,35 +462,35 @@ export default function HomePage() {
       </section>
 
       {/* ── Layanan Digital ──────────────────────────────────────── */}
-      <section className="py-12 bg-white border-y border-stone-100">
+      <section className="py-8 sm:py-12 bg-white border-y border-stone-100">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-8">
-            <p className="text-xs font-bold uppercase tracking-widest text-primary mb-1">Selain Belanja</p>
-            <h2 className="text-2xl font-black text-stone-800 tracking-tight">Ada Juga Ini</h2>
+          <div className="text-center mb-6 sm:mb-8">
+            <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-primary mb-1">Selain Belanja</p>
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-stone-800 tracking-tight">Ada Juga Ini</h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
-            <div className="flex items-center gap-4 p-5 rounded-2xl border border-stone-100 hover:border-primary/20 hover:shadow-md transition-all duration-200 group">
-              <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0 group-hover:bg-primary transition-colors duration-200">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-2xl mx-auto">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 p-4 sm:p-5 rounded-lg sm:rounded-2xl border border-stone-100 hover:border-primary/20 hover:shadow-md transition-all duration-200 group">
+              <div className="w-12 sm:w-14 h-12 sm:h-14 bg-primary/10 rounded-lg sm:rounded-2xl flex items-center justify-center text-2xl sm:text-3xl flex-shrink-0 group-hover:bg-primary transition-colors duration-200">
                 🎮
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-stone-800 text-sm mb-0.5">Game Voucher</h3>
-                <p className="text-stone-500 text-xs">Top-up MLBB, FF, PUBG & 50+ game lainnya</p>
+                <h3 className="font-bold text-stone-800 text-xs sm:text-sm mb-0.5">Game Voucher</h3>
+                <p className="text-stone-500 text-[10px] sm:text-xs">Top-up MLBB, FF, PUBG +</p>
               </div>
-              <Link href="/games" className="flex-shrink-0 flex items-center gap-1.5 bg-primary text-white text-xs font-bold px-4 py-2 rounded-xl hover:bg-primary/90 transition-colors">
-                <Gamepad2 className="h-4 w-4" /> Beli
+              <Link href="/games" className="flex-shrink-0 flex items-center gap-1 sm:gap-1.5 bg-primary text-white text-[10px] sm:text-xs font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl hover:bg-primary/90 transition-colors min-h-[32px] sm:min-h-[36px]">
+                <Gamepad2 className="h-3.5 sm:h-4 w-3.5 sm:w-4" /> Beli
               </Link>
             </div>
-            <div className="flex items-center gap-4 p-5 rounded-2xl border border-stone-100 hover:border-primary/20 hover:shadow-md transition-all duration-200 group">
-              <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0 group-hover:bg-primary transition-colors duration-200">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 p-4 sm:p-5 rounded-lg sm:rounded-2xl border border-stone-100 hover:border-primary/20 hover:shadow-md transition-all duration-200 group">
+              <div className="w-12 sm:w-14 h-12 sm:h-14 bg-primary/10 rounded-lg sm:rounded-2xl flex items-center justify-center text-2xl sm:text-3xl flex-shrink-0 group-hover:bg-primary transition-colors duration-200">
                 📱
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-stone-800 text-sm mb-0.5">Pulsa & Data</h3>
-                <p className="text-stone-500 text-xs">Isi pulsa, paket data, dan token listrik</p>
+                <h3 className="font-bold text-stone-800 text-xs sm:text-sm mb-0.5">Pulsa & Data</h3>
+                <p className="text-stone-500 text-[10px] sm:text-xs">Isi pulsa, paket data, listrik</p>
               </div>
-              <Link href="/topup" className="flex-shrink-0 flex items-center gap-1.5 bg-primary text-white text-xs font-bold px-4 py-2 rounded-xl hover:bg-primary/90 transition-colors">
-                <Smartphone className="h-4 w-4" /> Isi
+              <Link href="/topup" className="flex-shrink-0 flex items-center gap-1 sm:gap-1.5 bg-primary text-white text-[10px] sm:text-xs font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl hover:bg-primary/90 transition-colors min-h-[32px] sm:min-h-[36px]">
+                <Smartphone className="h-3.5 sm:h-4 w-3.5 sm:w-4" /> Isi
               </Link>
             </div>
           </div>
@@ -487,30 +498,30 @@ export default function HomePage() {
       </section>
 
       {/* ── Cara Belanja ─────────────────────────────────────────── */}
-      <section className="py-14 bg-stone-50">
+      <section className="py-8 sm:py-10 md:py-14 bg-stone-50">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-10">
-            <p className="text-xs font-bold uppercase tracking-widest text-primary mb-1">Gampang Banget</p>
-            <h2 className="text-2xl font-black text-stone-800 tracking-tight">Belanja Semudah Ngobrol di Warung</h2>
-            <p className="text-stone-500 text-sm mt-2">4 langkah, dan pesanan sudah di tangan.</p>
+          <div className="text-center mb-8 sm:mb-10">
+            <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-primary mb-1">Gampang Banget</p>
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-stone-800 tracking-tight">Belanja Semudah Ngobrol di Warung</h2>
+            <p className="text-stone-500 text-xs sm:text-sm mt-2">4 langkah, pesanan di tangan kamu.</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
             {[
-              { step: "01", emoji: "🔍", title: "Pilih Produk",     desc: "Cari dari ratusan produk asli warga Buntu." },
-              { step: "02", emoji: "🛒", title: "Masuk Keranjang",  desc: "Tambahkan yang kamu mau, bisa banyak sekaligus." },
-              { step: "03", emoji: "📲", title: "Scan & Bayar",     desc: "QRIS, mudah, aman, tidak perlu uang pas." },
-              { step: "04", emoji: "🛵", title: "Diantar ke Rumah", desc: "Kurir warga langsung bawa ke pintu kamu." },
+              { step: "01", emoji: "🔍", title: "Pilih Produk",     desc: "Ratusan produk warga" },
+              { step: "02", emoji: "🛒", title: "Keranjang",   desc: "Tambah yang diinginkan" },
+              { step: "03", emoji: "📲", title: "QRIS & Bayar",     desc: "Scan, bayar, aman" },
+              { step: "04", emoji: "🛵", title: "Diantar", desc: "Kurir ke rumah kamu" },
             ].map((s, i) => (
               <div key={i} className="relative flex flex-col items-center text-center">
                 {i < 3 && (
-                  <div className="hidden md:block absolute top-7 left-[calc(50%+32px)] right-0 border-t-2 border-dashed border-stone-200" />
+                  <div className="hidden md:block absolute top-5 sm:top-7 left-[calc(50%+24px)] sm:left-[calc(50%+32px)] right-0 border-t-2 border-dashed border-stone-200" />
                 )}
-                <div className="w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center text-2xl mb-3 shadow-lg shadow-primary/25 z-10 relative">
+                <div className="w-10 sm:w-14 h-10 sm:h-14 bg-primary text-white rounded-lg sm:rounded-2xl flex items-center justify-center text-lg sm:text-2xl mb-2 sm:mb-3 shadow-lg shadow-primary/25 z-10 relative">
                   {s.emoji}
                 </div>
-                <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-1">{s.step}</span>
-                <h3 className="font-bold text-stone-800 text-sm mb-1">{s.title}</h3>
-                <p className="text-stone-500 text-xs leading-relaxed">{s.desc}</p>
+                <span className="text-[8px] sm:text-[10px] font-black text-primary uppercase tracking-widest mb-0.5 sm:mb-1">{s.step}</span>
+                <h3 className="font-bold text-stone-800 text-xs sm:text-sm mb-0.5 sm:mb-1">{s.title}</h3>
+                <p className="text-stone-500 text-[10px] sm:text-xs leading-tight">{s.desc}</p>
               </div>
             ))}
           </div>
@@ -523,7 +534,7 @@ export default function HomePage() {
         photo-1464822759023 = aerial green fields / rice paddy landscape
       */}
       <section
-        className="py-16 text-white relative overflow-hidden"
+        className="py-10 sm:py-16 text-white relative overflow-hidden"
         style={{
           backgroundImage: "url(https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=85)",
           backgroundSize: "cover",
@@ -536,26 +547,26 @@ export default function HomePage() {
           style={{ backgroundImage: "radial-gradient(white 1px, transparent 1px)", backgroundSize: "22px 22px" }}
         />
         <div className="relative max-w-2xl mx-auto px-4 text-center">
-          <div className="text-5xl mb-4">🌾</div>
-          <h2 className="text-3xl md:text-4xl font-black mb-3 tracking-tight leading-tight">
-            Dukung Warga Buntu,<br />Mulai dari Belanja Hari Ini.
+          <div className="text-3xl sm:text-5xl mb-3 sm:mb-4">🌾</div>
+          <h2 className="text-xl sm:text-3xl md:text-4xl font-black mb-2 sm:mb-3 tracking-tight leading-tight">
+            Dukung Warga Buntu,<br />Belanja Hari Ini.
           </h2>
-          <p className="text-white/80 mb-8 text-base leading-relaxed">
-            Setiap pembelian berarti menghidupi petani, ibu rumah tangga, dan pengrajin
+          <p className="text-white/80 mb-6 sm:mb-8 text-xs sm:text-base leading-relaxed">
+            Setiap pembelian menghidupi petani, ibu rumah tangga, dan pengrajin
             lokal Desa Buntu secara langsung.
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3">
             <Link
               href="/katalog"
-              className="bg-white text-primary font-bold px-8 py-3.5 rounded-xl hover:bg-amber-50 transition-colors shadow-xl shadow-black/15 text-sm"
+              className="bg-white text-primary font-bold px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-lg sm:rounded-xl hover:bg-amber-50 transition-colors shadow-xl shadow-black/15 text-xs sm:text-sm"
             >
-              Lihat Katalog Produk
+              Lihat Katalog
             </Link>
             <Link
               href="/register"
-              className="bg-white/10 border border-white/35 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-white/20 transition-colors text-sm"
+              className="bg-white/10 border border-white/35 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3.5 rounded-lg sm:rounded-xl hover:bg-white/20 transition-colors text-xs sm:text-sm"
             >
-              Buka Toko Gratis
+              Buka Toko
             </Link>
           </div>
         </div>
@@ -615,15 +626,18 @@ export default function HomePage() {
               <form
                 onSubmit={(e) => { e.preventDefault(); toast.success("Terima kasih sudah daftar!"); }}
                 className="flex gap-2"
+                suppressHydrationWarning={true}
               >
                 <input
                   type="email"
                   placeholder="Email kamu"
                   className="flex-1 bg-stone-800 border border-stone-700 rounded-xl px-3 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-primary min-w-0 transition-colors"
+                  suppressHydrationWarning={true}
                 />
                 <button
                   type="submit"
                   className="bg-primary text-white px-3.5 py-2 rounded-xl text-xs font-bold hover:bg-primary/90 transition-colors flex-shrink-0"
+                  suppressHydrationWarning={true}
                 >
                   Daftar
                 </button>

@@ -65,15 +65,5 @@ export async function expireOrders(): Promise<number> {
 }
 
 // ─── STANDALONE RUNNER ────────────────────────────────────────────────────────
-if (require.main === module) {
-  const cron = require("node-cron");
-
-  console.log("[cron] Starting expire order cron job (every minute)...");
-
-  cron.schedule("* * * * *", async () => {
-    const count = await expireOrders();
-    if (count > 0) {
-      console.log(`[cron] ${count} orders expired at ${new Date().toISOString()}`);
-    }
-  });
-}
+// This file is imported by the Next.js app and also runnable as a standalone script.
+// The standalone runner is handled by src/lib/cron.ts — no require() needed here.
