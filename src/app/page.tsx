@@ -61,7 +61,7 @@ const UMKM_STORIES = [
 
 export default function HomePage() {
   const { data: session } = useSession();
-  const role = session?.user?.role as string;
+  const role = (session?.user as any)?.role as string;
   const router = useRouter();
   const [viralProducts, setViralProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
@@ -657,3 +657,4 @@ export default function HomePage() {
     </div>
   );
 }
+
