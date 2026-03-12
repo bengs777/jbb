@@ -1,3 +1,115 @@
+import crypto from "crypto";
+
+// Membuat signature sesuai formula: md5(merchant_id:secret_key:ref_id)
+function getSignature(merchantId: string, secretKey: string, refId: string) {
+  return crypto.createHash("md5").update(`${merchantId}:${secretKey}:${refId}`).digest("hex");
+}
+
+// Fungsi transaksi pembelian produk (POST v2)
+export async function beliProduk({
+  refId,
+  merchantId,
+  secretKey,
+  kodeProduk,
+  tujuan,
+  serverId = ""
+}: {
+  refId: string,
+  merchantId: string,
+  secretKey: string,
+  kodeProduk: string,
+  tujuan: string,
+  serverId?: string
+}) {
+  const signature = getSignature(merchantId, secretKey, refId);
+  const body = {
+    ref_id: refId,
+    merchant_id: merchantId,
+    produk: kodeProduk,
+    tujuan,
+    server_id: serverId,
+    signature,
+  };
+  const url = "https://v1.apigames.id/v2/transaksi";
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      // Semua HTTP error dianggap Pending
+      return { status: "Pending", message: "HTTP Error, transaksi diproses sebagai Pending" };
+    }
+    const data = await res.json();
+    if (data.status === 1 && data.data) {
+      return {
+        status: data.data.status, // biasanya "Pending"
+        trx_id: data.data.trx_id,
+        ref_id: data.data.ref_id,
+        message: data.data.message,
+      };
+    } else {
+      // Jika error dari API, juga set Pending
+      return { status: "Pending", message: data.error_msg || "Transaksi gagal, status Pending" };
+    }
+  } catch (err) {
+    // Network error, timeout, dsb → Pending
+    return { status: "Pending", message: "Network error, transaksi diproses sebagai Pending" };
+  }
+}
+
+// Fungsi cek status transaksi (GET v2)
+export async function cekStatusTransaksi({
+  refId,
+  merchantId,
+  secretKey
+}: {
+  refId: string,
+  merchantId: string,
+  secretKey: string
+}) {
+  // Signature biasanya sama formula dengan transaksi
+  const signature = getSignature(merchantId, secretKey, refId);
+  const params = new URLSearchParams({
+    ref_id: refId,
+    merchant_id: merchantId,
+    signature,
+  });
+  const url = `https://v1.apigames.id/v2/cek-status?${params.toString()}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Gagal cek status transaksi");
+  return res.json();
+}
+
+// Fungsi bulk redeem voucher Kiosgamer (POST)
+export async function bulkRedeemKiosgamer({
+  merchantId,
+  secretKey,
+  vouchers,
+  sessionKey
+}: {
+  merchantId: string,
+  secretKey: string,
+  vouchers: string[], // array kode voucher
+  sessionKey?: string
+}) {
+  // Kode voucher di-base64, dipisah enter
+  const kode_voucher = Buffer.from(vouchers.join('\n')).toString('base64');
+  const signature = crypto.createHash("md5").update(merchantId + secretKey).digest("hex");
+  const body: any = {
+    kode_voucher,
+    signature,
+  };
+  if (sessionKey) body.session_key = sessionKey;
+  const url = `https://v1.apigames.id/merchant/${merchantId}/kiosgamer/redem/bulk`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return res.json();
+}
 import { logger } from "@/lib/logger";
 
 type UnknownRecord = Record<string, unknown>;
