@@ -81,17 +81,22 @@ export function Navbar() {
   return (
     <>
       {/* ── Top Navbar ────────────────────────────────────────────── */}
-      <nav className="sticky top-0 z-50 bg-primary text-white border-b border-primary/70 shadow-lg backdrop-blur supports-[backdrop-filter]:bg-primary/95">
-        <div className="max-w-6xl mx-auto px-3 sm:px-4">
+      <nav className="sticky top-0 z-50 bg-gradient-to-r from-desa-hijau via-desa-kuning to-desa-coklat text-desa-putih border-b border-desa-hijau/70 shadow-lg backdrop-blur supports-[backdrop-filter]:bg-desa-hijau/95 relative">
+        {/* Ornamen Batik */}
+        <div className="absolute inset-0 pointer-events-none opacity-20 select-none" style={{backgroundImage: 'url(/images/batik-pattern.png)', backgroundRepeat: 'repeat', backgroundSize: '120px'}} />
+        <div className="relative max-w-6xl mx-auto px-3 sm:px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
 
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 flex-shrink-0">
-              <Image src="/logo.png" alt="JBB" width={40} height={40} className="rounded-md ring-2 ring-white/35 shadow" />
-              <span className="font-semibold text-white tracking-tight text-xl hidden sm:inline drop-shadow-sm">
-                Jual Beli Buntu
-              </span>
-            </Link>
+            {/* Logo Lokal */}
+              {/* Logo JBB */}
+              <Link href="/" className="flex items-center gap-3 flex-shrink-0">
+                <Image src="/logo.png" alt="JBB" width={44} height={44} className="rounded-md ring-2 ring-desa-kuning shadow" priority />
+                <span className="font-extrabold text-desa-merah tracking-widest text-2xl hidden sm:inline drop-shadow-lg font-['Merriweather',serif] bg-desa-kuning px-3 py-1 rounded-xl border-2 border-desa-coklatTua shadow-lg flex items-center gap-2">
+                  <span className="inline-block rotate-[-8deg] text-desa-hijau">✦</span>
+                  JBB
+                  <span className="inline-block rotate-[8deg] text-desa-hijau">✦</span>
+                </span>
+              </Link>
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-1">

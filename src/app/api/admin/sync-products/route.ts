@@ -19,25 +19,36 @@ export async function POST(req: NextRequest) {
     const products = await getAllProducts();
     const now = new Date().toISOString();
 
-    const rows = products.map((product) => ({
-      id: crypto.randomUUID(),
-      provider: PROVIDER,
-      code: product.code,
-      name: product.name,
-      game_id: product.gameId,
-      nominal_value: product.nominalValue,
-      buy_price: product.buyPrice,
-      sell_price: calculateSellPrice(product.buyPrice),
-      margin_percent: MARGIN_PERCENT,
-      status: product.status,
-      raw_payload: JSON.stringify(product.raw),
-      updated_at: now,
-    }));
 
-    const allCodes = rows.map((r) => r.code);
+    // Validasi dan logging produk yang tidak valid
+    const validRows = [];
+    const invalidRows = [];
+    for (const product of products) {
+      if (!product.code || !product.name || !product.buyPrice) {
+        logger.error("[apigames] produk tidak valid, skip", { product });
+        invalidRows.push(product);
+        continue;
+      }
+      validRows.push({
+        id: crypto.randomUUID(),
+        provider: PROVIDER,
+        code: product.code,
+        name: product.name,
+        game_id: product.gameId,
+        nominal_value: product.nominalValue,
+        buy_price: product.buyPrice,
+        sell_price: calculateSellPrice(product.buyPrice),
+        margin_percent: MARGIN_PERCENT,
+        status: product.status,
+        raw_payload: JSON.stringify(product.raw),
+        updated_at: now,
+      });
+    }
+
+    const allCodes = validRows.map((r) => r.code);
 
     await db.transaction(async (tx) => {
-      for (const row of rows) {
+      for (const row of validRows) {
         await tx
           .insert(digitalProducts)
           .values(row)
@@ -74,7 +85,8 @@ export async function POST(req: NextRequest) {
     logger.info("[admin/sync-products] sync complete", {
       userId: guard.user.id,
       provider: PROVIDER,
-      count: rows.length,
+      count: validRows.length,
+      invalidCount: invalidRows.length,
       durationMs: Date.now() - startedAt,
     });
 

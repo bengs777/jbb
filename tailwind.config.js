@@ -18,8 +18,21 @@ module.exports = {
       },
       colors: {
         primary: {
-          DEFAULT: '#FF5722',
-          hover: '#E64A19',
+          DEFAULT: '#6CB28E', // Hijau daun
+          hover: '#3B7A57',   // Hijau tua
+        },
+        desa: {
+          hijau: '#6CB28E',
+          hijauTua: '#3B7A57',
+          coklat: '#A47551',
+          coklatTua: '#7C4F20',
+          biru: '#A7D8F0',
+          biruTua: '#4A90E2',
+          kuning: '#F9E79F',
+          kuningTua: '#F7CA18',
+          putih: '#F9F6F2',
+          merah: '#C0392B',
+          merahTua: '#E74C3C',
         },
         gray: {
           50: '#F9FAFB',
