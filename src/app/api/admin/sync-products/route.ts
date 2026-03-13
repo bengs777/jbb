@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
 
     return ok({
       provider: PROVIDER,
-      synced: rows.length,
+      synced: validRows.length,
       marginPercent: MARGIN_PERCENT,
       durationMs: Date.now() - startedAt,
     });
