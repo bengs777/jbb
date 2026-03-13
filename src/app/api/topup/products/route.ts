@@ -53,6 +53,8 @@ export async function GET(req: NextRequest) {
     const conditions = [eq(topupProducts.status, "available")];
     if (category) conditions.push(eq(topupProducts.category, category));
     if (operator) conditions.push(eq(topupProducts.operator, operator));
+    // Filter agar kategori 'game voucher' tidak ikut
+    conditions.push(sql`LOWER(${topupProducts.category}) <> 'game voucher'`);
 
     const products = await db
       .select()

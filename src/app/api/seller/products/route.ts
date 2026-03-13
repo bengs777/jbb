@@ -12,14 +12,17 @@ export async function GET(req: NextRequest) {
   const { user } = guard;
 
   try {
+    // Filter produk dengan kategori 'game voucher'
+    const baseCondition = user.role === "ADMIN"
+      ? sql`LOWER(${products.kategori}) <> 'game voucher'`
+      : and(
+          eq(products.seller_id, user.id),
+          sql`LOWER(${products.kategori}) <> 'game voucher'`
+        );
     const rows = await db
       .select()
       .from(products)
-      .where(
-        user.role === "ADMIN"
-          ? undefined
-          : eq(products.seller_id, user.id)
-      );
+      .where(baseCondition);
     return ok(rows);
   } catch (e) {
     console.error("[GET /api/seller/products]", e);

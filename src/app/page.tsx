@@ -343,7 +343,7 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
-              {viralProducts.map((p) => (
+              {viralProducts.filter((p) => String(p.kategori).toLowerCase() !== "game voucher").map((p) => (
                 <div key={p.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-200 group border border-stone-100">
                   <Link href={`/katalog/${p.id}`} className="block">
                     <div className="relative aspect-square bg-stone-100 overflow-hidden">
@@ -471,18 +471,6 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 max-w-2xl mx-auto">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 p-4 sm:p-5 rounded-lg sm:rounded-2xl border border-stone-100 hover:border-primary/20 hover:shadow-md transition-all duration-200 group">
               <div className="w-12 sm:w-14 h-12 sm:h-14 bg-primary/10 rounded-lg sm:rounded-2xl flex items-center justify-center text-2xl sm:text-3xl flex-shrink-0 group-hover:bg-primary transition-colors duration-200">
-                🎮
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-stone-800 text-xs sm:text-sm mb-0.5">Game Voucher</h3>
-                <p className="text-stone-500 text-[10px] sm:text-xs">Top-up MLBB, FF, PUBG +</p>
-              </div>
-              <Link href="/games" className="flex-shrink-0 flex items-center gap-1 sm:gap-1.5 bg-primary text-white text-[10px] sm:text-xs font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl hover:bg-primary/90 transition-colors min-h-[32px] sm:min-h-[36px]">
-                <Gamepad2 className="h-3.5 sm:h-4 w-3.5 sm:w-4" /> Beli
-              </Link>
-            </div>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 p-4 sm:p-5 rounded-lg sm:rounded-2xl border border-stone-100 hover:border-primary/20 hover:shadow-md transition-all duration-200 group">
-              <div className="w-12 sm:w-14 h-12 sm:h-14 bg-primary/10 rounded-lg sm:rounded-2xl flex items-center justify-center text-2xl sm:text-3xl flex-shrink-0 group-hover:bg-primary transition-colors duration-200">
                 📱
               </div>
               <div className="flex-1 min-w-0">
@@ -600,7 +588,6 @@ export default function HomePage() {
               <ul className="space-y-2.5 text-xs">
                 <li><Link href="/katalog"                 className="hover:text-white transition-colors">Semua Produk</Link></li>
                 <li><Link href="/katalog?kategori=Olahan" className="hover:text-white transition-colors">Makanan & Olahan</Link></li>
-                <li><Link href="/games"                   className="hover:text-white transition-colors">Game Voucher</Link></li>
                 <li><Link href="/topup"                   className="hover:text-white transition-colors">Top-Up Pulsa</Link></li>
                 <li><Link href="/buyer/orders"            className="hover:text-white transition-colors">Lacak Pesanan</Link></li>
               </ul>

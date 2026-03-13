@@ -435,7 +435,7 @@ export async function getAllProducts(): Promise<ApiGamesProduct[]> {
   while (loops < 500) {
     loops += 1;
 
-    const payload = await requestJson(config, "/products", { page, limit: 100 });
+    const payload = await requestJson(config, "/v1/product/list", { page, limit: 100 });
     const items = extractItems(payload);
     if (items.length === 0) break;
 

@@ -160,7 +160,7 @@ export default function KatalogPage() {
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-              {products.map((p) => (
+              {products.filter((p) => String(p.kategori).toLowerCase() !== "game voucher").map((p) => (
                 <ProductCard
                   key={p.id}
                   {...p}

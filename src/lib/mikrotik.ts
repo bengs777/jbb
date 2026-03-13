@@ -33,16 +33,26 @@ function getClient() {
     port,
     user,
     password,
-    timeout: 8,
+    timeout: 5, // timeout koneksi lebih pendek (5 detik)
   });
 }
 
 async function withConnection<T>(fn: (api: RouterOSAPI) => Promise<T>): Promise<T> {
   const api = getClient();
   try {
-    await api.connect();
+    // Coba connect, jika gagal langsung throw error spesifik
+    await Promise.race([
+      api.connect(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout koneksi ke MikroTik (5 detik)")), 5000))
+    ]);
     const result = await fn(api);
     return result;
+  } catch (err) {
+    // Error koneksi lebih jelas
+    if (err instanceof Error && err.message.includes("Timeout")) {
+      throw new Error("Tidak bisa terhubung ke MikroTik: " + err.message);
+    }
+    throw err;
   } finally {
     try {
       api.close();

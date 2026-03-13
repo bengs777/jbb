@@ -27,6 +27,8 @@ export async function GET(req: NextRequest) {
     if (kategori) {
       conditions.push(eq(products.kategori, kategori));
     }
+    // Filter agar kategori 'game voucher' tidak ikut
+    conditions.push(sql`LOWER(${products.kategori}) <> 'game voucher'`);
 
     const [rows, countResult] = await Promise.all([
       db

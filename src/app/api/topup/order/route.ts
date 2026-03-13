@@ -34,21 +34,25 @@ export async function POST(req: NextRequest) {
   // Anti double-click: 3 order per 30 detik per user
   const rl = rateLimit(`${user.id}:topup:order`, 3, 30_000);
   if (!rl.ok) {
+    logger.error("[topup:order] Rate limit", { userId: user.id });
     return err("Terlalu cepat, tunggu sebentar sebelum order berikutnya", 429);
   }
 
   let body: { productCode?: string; targetNumber?: string; payWithBalance?: boolean };
   try {
     body = await req.json();
-  } catch {
+  } catch (e) {
+    logger.error("[topup:order] Invalid body", { error: String(e) });
     return err("Body tidak valid");
   }
 
   const { productCode, targetNumber, payWithBalance = false } = body;
   if (!productCode || !targetNumber) {
+    logger.error("[topup:order] Missing productCode/targetNumber", { body });
     return err("productCode dan targetNumber wajib diisi");
   }
   if (!/^[0-9]{8,20}$/.test(targetNumber.replace(/\s/g, ""))) {
+    logger.error("[topup:order] Invalid targetNumber", { targetNumber });
     return err("Nomor tujuan tidak valid (8-20 digit angka)");
   }
 
@@ -59,8 +63,14 @@ export async function POST(req: NextRequest) {
     .where(eq(topupProducts.code, productCode))
     .limit(1);
 
-  if (!product) return err("Produk tidak ditemukan", 404);
-  if (product.status !== "available") return err("Produk sedang tidak tersedia");
+  if (!product) {
+    logger.error("[topup:order] Produk tidak ditemukan", { productCode });
+    return err("Produk tidak ditemukan", 404);
+  }
+  if (product.status !== "available") {
+    logger.error("[topup:order] Produk tidak tersedia", { productCode });
+    return err("Produk sedang tidak tersedia");
+  }
 
   const price = product.price;
   const cost  = product.cost;
@@ -73,6 +83,7 @@ export async function POST(req: NextRequest) {
   if (payWithBalance) {
     const { balance } = await getBalance(user.id);
     if (balance < price) {
+      logger.error("[topup:order] Saldo tidak cukup", { userId: user.id, balance, price });
       return err(
         `Saldo tidak cukup. Saldo Anda: Rp ${balance.toLocaleString("id-ID")}, dibutuhkan: Rp ${price.toLocaleString("id-ID")}`
       );
@@ -151,11 +162,13 @@ export async function POST(req: NextRequest) {
 
       // PP failed immediately
       await refundAndFail(invoiceId, user.id, price, ppRes.message);
+      logger.error("[topup:order] PP failed", { invoiceId, ppRes });
       return err(`Transaksi gagal: ${ppRes.message}`);
 
     } catch (e) {
       logger.error("[topup:order] wallet unexpected error", { userId: user.id, invoiceId, error: String(e) });
       try { await refundAndFail(invoiceId, user.id, price, String(e)); } catch {}
+      logger.error("[topup:order] Wallet mode unexpected error", { invoiceId, error: String(e) });
       return err("Terjadi kesalahan sistem", 500);
     }
   }
@@ -191,6 +204,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (e) {
     logger.error("[topup:order] mayar error", { userId: user.id, error: String(e) });
+    logger.error("[topup:order] Mayar error", { userId: user.id, error: String(e) });
     return err("Gagal membuat link pembayaran", 500);
   }
 }

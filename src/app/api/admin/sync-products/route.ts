@@ -103,12 +103,22 @@ export async function POST(req: NextRequest) {
         message: error.message,
         meta: error.meta,
       });
-      return err(`Sync gagal: ${error.message}`, 502);
+      // Tampilkan error detail ke client (dev only, aman untuk debugging)
+      return err(
+        `Sync gagal: ${error.message} (${error.code})${error.meta ? " | " + JSON.stringify(error.meta) : ""}`,
+        502
+      );
     }
 
     logger.error("[admin/sync-products] unexpected error", {
       message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
     });
-    return err("Gagal sinkronisasi produk", 500);
+    // Tampilkan error detail ke client (dev only, aman untuk debugging)
+    return err(
+      "Gagal sinkronisasi produk: " +
+        (error instanceof Error ? error.message : String(error)),
+      500
+    );
   }
 }

@@ -19,8 +19,8 @@ const MEMBER_ID = (process.env.PORTALPULSA_MEMBER_ID ?? "").trim();
 const API_KEY = (process.env.PORTALPULSA_API_KEY ?? "").trim();
 const USE_MOCK = process.env.PORTALPULSA_MOCK === "true";
 
-// Markup margin — 5% sesuai requirement
-export const TOPUP_MARGIN = 0.05;
+// Markup margin — 2.5% sesuai permintaan terbaru
+export const TOPUP_MARGIN = 0.025;
 
 // ─── Signature Helper ─────────────────────────────────────────────────────────
 

@@ -78,6 +78,7 @@ export const auth = betterAuth({
           return {
             data: {
               ...user,
+              name: user.name || user.email || "User",
               role: user.role || "BUYER",
               is_active: user.is_active != null ? user.is_active : true,
             },

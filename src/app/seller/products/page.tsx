@@ -67,7 +67,7 @@ export default function SellerProductsPage() {
         ) : (
           <div className="flex flex-col gap-4">
             {products.map((p) => (
-              <div key={p.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex gap-4">
+                <div key={p.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex gap-4">
                 {p.foto_url && (
                   <img src={p.foto_url} alt={p.nama} className="w-20 h-20 rounded-xl object-cover shrink-0" />
                 )}
@@ -104,6 +104,7 @@ export default function SellerProductsPage() {
               </div>
             ))}
           </div>
+            </div>
         )}
       </div>
     </div>
