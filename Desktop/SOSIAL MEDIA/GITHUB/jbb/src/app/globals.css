@@ -1,0 +1,268 @@
+@import "tailwindcss";
+@config "../../tailwind.config.js";
+
+@theme {
+  --color-primary: #FF5722;
+  --color-primary-hover: #E64A19;
+}
+
+:root {
+  --background: #FFFFFF;
+  --foreground: #000000;
+  --card: #FFFFFF;
+  --border: #E5E7EB;
+  --ring: #FF5722;
+  --primary: var(--color-primary);
+  --primary-hover: var(--color-primary-hover);
+  --radius: 0.5rem;
+  
+  /* Mobile safe-area constants */
+  --safe-area-left: max(1rem, env(safe-area-inset-left));
+  --safe-area-right: max(1rem, env(safe-area-inset-right));
+  --safe-area-top: max(0.5rem, env(safe-area-inset-top));
+  --safe-area-bottom: max(3.75rem, env(safe-area-inset-bottom));
+}
+
+/* ─── Typography & Base ─────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  /* Safe area padding for notched devices */
+  padding-left: var(--safe-area-left);
+  padding-right: var(--safe-area-right);
+  padding-bottom: var(--safe-area-bottom);
+}
+
+/* ─── Remove body padding on desktop ────────────────────────── */
+@media (min-width: 768px) {
+  body {
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+}
+
+/* ─── Force inputs to always be dark (light-only theme) ─────── */
+input, textarea, select {
+  color: #000000;
+  font-weight: 400;
+  font-size: 16px; /* Prevent zoom on iOS */
+}
+input::placeholder, textarea::placeholder {
+  color: #666666;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+}
+::-webkit-scrollbar-thumb {
+  background: #9CA3AF;
+  border: 1px solid #E5E7EB;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6B7280;
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Mobile safe-area padding ──────────────────────────────── */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: var(--safe-area-bottom);
+  }
+}
+
+/* ─── Prevent scroll when mobile menu open ──────────────────── */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* ─── Tap highlight suppression ─────────────────────────────── */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Animations ────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.4s ease both;
+}
+
+/* Better skeleton shimmer */
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ─── Conventional Utility Classes ─────────────────────────── */
+
+/* Card */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Button */
+.btn-primary {
+  background: var(--primary);
+  border: none;
+  border-radius: var(--radius);
+  color: white;
+  font-weight: 500;
+  padding: 10px 16px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-size: 16px; /* Prevent iOS zoom */
+  min-height: 44px; /* iOS tap target minimum */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* Input */
+.input {
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 12px;
+  font-weight: 400;
+  color: var(--foreground);
+  transition: all 0.2s ease;
+  font-size: 16px;
+  min-height: 44px; /* iOS tap target */
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2);
+}
+
+/* Badge */
+.badge {
+  background: var(--primary);
+  border-radius: var(--radius);
+  color: white;
+  font-weight: 500;
+  padding: 6px 10px;
+  font-size: 0.875rem;
+  display: inline-block;
+}
+
+/* Glass card utility */
+.glass {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ─── Page fade-in ───────────────────────────────────────────── */
+main, [data-page] {
+  animation: fadeUp 0.3s ease both;
+}
+
+/* ─── Mobile-First Container ─────────────────────────────────── */
+@layer components {
+  .container-safe {
+    @apply mx-auto px-4 sm:px-6 md:px-8;
+  }
+  
+  /* Mobile padding utilities - scale smartly */
+  .px-mobile { @apply px-4 sm:px-6; }
+  .py-mobile { @apply py-4 sm:py-6; }
+  .p-mobile { @apply p-4 sm:p-6; }
+  
+  /* Section spacing - better mobile experience */
+  .section-gap { @apply py-8 sm:py-10 md:py-14; }
+  .section-gap-sm { @apply py-6 sm:py-8; }
+  
+  /* Text scaling for mobile */
+  .text-title { @apply text-2xl sm:text-3xl md:text-4xl font-black; }
+  .text-subtitle { @apply text-lg sm:text-xl md:text-2xl font-bold; }
+  .text-body { @apply text-sm sm:text-base md:text-lg; }
+  
+  /* Grid responsive */
+  .grid-auto { @apply grid gap-3 sm:gap-4 md:gap-5; }
+  
+  /* Button minimum sizes (iOS compliance) */
+  .btn-touch {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+  
+  /* Safe area aware containers */
+  .safe-area-bottom { padding-bottom: var(--safe-area-bottom); }
+}
+
+/* Badge */
+.badge {
+  background: var(--primary);
+  border-radius: var(--radius);
+  color: white;
+  font-weight: 500;
+  padding: 4px 8px;
+  font-size: 0.875rem;
+}
+
+/* Glass card utility */
+.glass {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ─── Page fade-in ───────────────────────────────────────────── */
+main, [data-page] {
+  animation: fadeUp 0.3s ease both;
+}

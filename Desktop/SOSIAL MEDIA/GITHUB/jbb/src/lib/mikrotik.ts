@@ -1,0 +1,121 @@
+import { RouterOSAPI } from "node-routeros";
+
+export interface MikrotikProfile {
+  name: string;
+  rateLimit?: string;
+  sharedUsers?: string;
+  sessionTimeout?: string;
+}
+
+export interface MikrotikActiveUser {
+  id: string;
+  name: string;
+  address: string;
+  "mac-address": string;
+  uptime: string;
+  "bytes-in": string;
+  "bytes-out": string;
+  comment?: string;
+}
+
+function getClient() {
+  const host = process.env.MIKROTIK_HOST;
+  const port = parseInt(process.env.MIKROTIK_PORT ?? "8728", 10);
+  const user = process.env.MIKROTIK_USER;
+  const password = process.env.MIKROTIK_PASS;
+
+  if (!host || !user || !password) {
+    throw new Error("MikroTik env vars not configured (MIKROTIK_HOST, MIKROTIK_USER, MIKROTIK_PASS)");
+  }
+
+  return new RouterOSAPI({
+    host,
+    port,
+    user,
+    password,
+    timeout: 5, // timeout koneksi lebih pendek (5 detik)
+  });
+}
+
+async function withConnection<T>(fn: (api: RouterOSAPI) => Promise<T>): Promise<T> {
+  const api = getClient();
+  try {
+    // Coba connect, jika gagal langsung throw error spesifik
+    await Promise.race([
+      api.connect(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout koneksi ke MikroTik (5 detik)")), 5000))
+    ]);
+    const result = await fn(api);
+    return result;
+  } catch (err) {
+    // Error koneksi lebih jelas
+    if (err instanceof Error && err.message.includes("Timeout")) {
+      throw new Error("Tidak bisa terhubung ke MikroTik: " + err.message);
+    }
+    throw err;
+  } finally {
+    try {
+      api.close();
+    } catch {
+      // ignore close errors
+    }
+  }
+}
+
+export async function getProfiles(): Promise<MikrotikProfile[]> {
+  return withConnection(async (api) => {
+    const raw = await api.write("/ip/hotspot/user/profile/print");
+    return (raw as Record<string, string>[]).map((p) => ({
+      name: p.name as string,
+      rateLimit: p["rate-limit"],
+      sharedUsers: p["shared-users"],
+      sessionTimeout: p["session-timeout"],
+    }));
+  });
+}
+
+export async function getActiveUsers(): Promise<MikrotikActiveUser[]> {
+  return withConnection(async (api) => {
+    const raw = await api.write("/ip/hotspot/active/print");
+    return raw as MikrotikActiveUser[];
+  });
+}
+
+export async function kickActiveUser(activeId: string): Promise<void> {
+  return withConnection(async (api) => {
+    await api.write("/ip/hotspot/active/remove", [`=.id=${activeId}`]);
+  });
+}
+
+export async function addHotspotUser(
+  name: string,
+  password: string,
+  profile: string,
+  comment?: string
+): Promise<void> {
+  return withConnection(async (api) => {
+    const args = [
+      `=name=${name}`,
+      `=password=${password}`,
+      `=profile=${profile}`,
+    ];
+    if (comment) args.push(`=comment=${comment}`);
+    await api.write("/ip/hotspot/user/add", args);
+  });
+}
+
+export async function generateHotspotVoucher(profile: string, comment?: string): Promise<{ username: string; password: string }> {
+  const username = `JBB-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+  const password = Math.random().toString(36).substr(2, 8);
+  await addHotspotUser(username, password, profile, comment);
+  return { username, password };
+}
+
+export async function removeHotspotUser(name: string): Promise<void> {
+  return withConnection(async (api) => {
+    const found = await api.write("/ip/hotspot/user/print", [`?name=${name}`]);
+    if (found.length === 0) return;
+    const id = (found[0] as Record<string, string>)[".id"];
+    await api.write("/ip/hotspot/user/remove", [`=.id=${id}`]);
+  });
+}
