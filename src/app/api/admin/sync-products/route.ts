@@ -21,8 +21,8 @@ export async function POST(req: NextRequest) {
 
 
     // Validasi dan logging produk yang tidak valid
-    const validRows = [];
-    const invalidRows = [];
+    const validRows: any[] = [];
+    const invalidRows: any[] = [];
     for (const product of products) {
       if (!product.code || !product.name || !product.buyPrice) {
         logger.error("[apigames] produk tidak valid, skip", { product });
