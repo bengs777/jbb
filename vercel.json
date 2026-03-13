@@ -1,19 +1,4 @@
 {
-<<<<<<< HEAD
-	"redirects": [
-		{
-			"source": "/(.*)",
-			"destination": "https://www.jbb.my.id/$1",
-			"has": [
-				{
-					"type": "host",
-					"value": "jbb.my.id"
-				}
-			],
-			"permanent": true
-		}
-	]
-=======
   "redirects": [
     {
       "source": "/(.*)",
@@ -27,5 +12,4 @@
       "permanent": true
     }
   ]
->>>>>>> b245ff475d8402915629620dfd9dd5044d47b4f7
 }
