@@ -104,7 +104,7 @@ export default function SellerProductsPage() {
               </div>
             ))}
           </div>
-            </div>
+            // ...existing code...
         )}
       </div>
     </div>
