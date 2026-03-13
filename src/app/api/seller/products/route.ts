@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { db } from "@/db";
 import { products } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import { requireRole, ok, err } from "@/lib/api-helpers";
 import { createProductSchema } from "@/lib/validations";
 
